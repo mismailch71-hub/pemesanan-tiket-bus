@@ -7,8 +7,8 @@ use App\Models\TiketModel;
 
 class Pemesanan extends BaseController
 {
-    protected $jadwalModel;
-    protected $tiketModel;
+    protected JadwalModel $jadwalModel;
+    protected TiketModel $tiketModel;
 
     public function __construct()
     {
@@ -18,7 +18,7 @@ class Pemesanan extends BaseController
 
     public function index()
     {
-        return view('layout/header') . view('penumpang/home') . view('layout/footer');
+        return view('layout/header') . view('portal') . view('layout/footer');
     }
 
     public function jadwal()
@@ -34,7 +34,7 @@ class Pemesanan extends BaseController
         return view('layout/header') . view('penumpang/jadwal', $data) . view('layout/footer');
     }
 
-    public function pilihKursi($id_jadwal)
+    public function pilihKursi(int $id_jadwal)
     {
         $data['jadwal'] = $this->jadwalModel->find($id_jadwal);
 
@@ -61,5 +61,53 @@ class Pemesanan extends BaseController
     {
         $data['tiket'] = $this->tiketModel->getRiwayat(1);
         return view('layout/header') . view('penumpang/riwayat', $data) . view('layout/footer');
+    }
+
+    public function tambah()
+    {
+        return view('layout/header') . view('admin/tambah') . view('layout/footer');
+    }
+
+    public function simpan()
+    {
+        $this->jadwalModel->save([
+            'nama_bus' => $this->request->getPost('nama_bus'),
+            'asal' => $this->request->getPost('asal'),
+            'tujuan' => $this->request->getPost('tujuan'),
+            'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
+            'harga' => $this->request->getPost('harga'),
+        ]);
+
+        return redirect()->to(base_url('admin/dashboard'))->with('sukses', 'Jadwal bus baru berhasil ditambahkan!');
+    }
+
+    public function edit(int $id)
+    {
+        $data['jadwal'] = $this->jadwalModel->find($id);
+
+        if(empty($data['jadwal'])) {
+            return redirect()->to(base_url('admin/dashboard'))->with('error', 'Jadwal bus tidak ditemukan!');
+        }
+
+        return view('layout/header') . view('admin/edit', $data) . view('layout/footer');
+    }
+
+    public function update(int $id)
+    {
+        $this->jadwalModel->update($id, [
+            'nama_bus' => $this->request->getPost('nama_bus'),
+            'asal' => $this->request->getPost('asal'),
+            'tujuan' => $this->request->getPost('tujuan'),
+            'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
+            'harga' => $this->request->getPost('harga'),
+        ]);
+
+        return redirect()->to(base_url('admin/dasboard'))->with('sukses', 'Jadwal bus berhasil diperbarui!');
+    }
+
+    public function hapus(int $id)
+    {
+        $this->jadwalModel->delete($id);
+        return redirect()->to(base_url('admin/dashboard'))->with('sukses', 'jadwal bus berhasil dihapus!');
     }
 }

@@ -1,27 +1,25 @@
-<!DOCTYPE html>
-<html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sistem Tiket Bus Mataram</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?= base_url('css/style.css') ?>" rel="stylesheet">
-    </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
-            <div class="content">
-                <a class="navbar-brand" href="<?= base_url() ?>"> TiketBus Mataram</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <?php if (session()->get('isLoggedIn')): ?>
+        
+        <?php if (session()->get('role') === 'admin'): ?>
+            <li class="nav-item"><a class="nav-link fw-bold text-warning" href="<?= base_url('admin/dashboard'); ?>">Dashboard Admin</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url('admin/pengguna'); ?>">Kelola User</a></li>
+        
+        <?php elseif (session()->get('role') === 'petugas'): ?>
+            <li class="nav-item"><a class="nav-link fw-bold text-info" href="<?= base_url('petugas/dashboard'); ?>">Panel Petugas</a></li>
+        
+        <?php else: ?>
+            <li class="nav-item"><a class="nav-link active" href="<?= base_url('jadwal'); ?>">Cari Jadwal Bus</a></li>
+            <li class="nav-item"><a class="nav-link" href="<?= base_url('riwayat'); ?>">Riwayat Pesanan</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Poin Saya 🌟</a></li>
+        <?php endif; ?>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <div class="navbar-nav ms-auto">
-                        <a class="nav-link text-white" href="<?= base_url('jadwaal') ?>"> Cari Jadwal</a>
-                        <a class="nav-link text-white" href="<?= base_url('riwayat') ?>"> Riwayat Pesanan</a>
-                        <a class="nav-link text-warning fw-bold" href="<?= base_url('login') ?>"> Masuk Admin</a>
-                    </div>
-            </div>
-        </nav>
-    </body>
-</html>
+        <li class="nav-item ms-2">
+            <a class="btn btn-danger btn-sm text-white px-3" href="<?= base_url('logout'); ?>">Keluar (<?= session()->get('username'); ?>)</a>
+        </li>
+
+    <?php else: ?>
+        <li class="nav-item"><a class="nav-link" href="<?= base_url('login'); ?>">Masuk</a></li>
+        <li class="nav-item"><a class="nav-link" href="<?= base_url('register'); ?>">Daftar Akun</a></li>
+    <?php endif; ?>
+</ul>
