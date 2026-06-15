@@ -4,16 +4,23 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Models\JadwalModel;
+use App\Models\BusModel;
+use App\Models\TransaksiModel;
+use App\Models\UlasanModel;
 
 class Admin extends BaseController
 {
     protected UserModel $userModel;
     protected JadwalModel $jadwalModel;
+    protected BusModel $busModel;
+    protected TransaksiModel $transaksiModel;
+    protected UlasanModel $ulasanModel;
 
     public function __construct() 
     {
         $this->userModel = new UserModel();
         $this->jadwalModel = new JadwalModel();
+        $this->ulasanModel = new UlasanModel();
     }
 
     private function proteksiAdmin()
@@ -141,18 +148,112 @@ class Admin extends BaseController
     public function bus()
     {
         $this->proteksiAdmin();
-        return view('admin/bus');
+        $busModel = new \App\Models\BusModel(); // Pastikan inisialisasi di sini atau di __construct
+        $data['daftar_bus'] = $busModel->findAll();
+        return view('admin/bus', $data);
+    }  
+
+    public function tambah_bus()
+    {
+        $this->proteksiAdmin();
+        return view('admin/tambah_bus');
+    }
+
+    public function simpan_bus()
+    {
+        $this->proteksiAdmin();
+        
+        // Pastikan busModel sudah didefinisikan di __construct() atau load di sini
+        $busModel = new \App\Models\BusModel(); 
+        
+        $busModel->save([
+            'nama_bus'   => $this->request->getPost('nama_bus'),
+            'nomor_plat' => $this->request->getPost('nomor_plat'),
+            'kelas'      => $this->request->getPost('kelas'),
+            'kapasitas'  => $this->request->getPost('kapasitas'),
+        ]);
+
+        return redirect()->to(base_url('admin/bus'))->with('sukses', 'Data armada berhasil ditambahkan!');
+    }
+
+    public function edit_bus(int $id)
+    {
+        $this->proteksiAdmin();
+        $busModel = new \App\Models\BusModel();
+        
+        $data['bus'] = $busModel->find($id);
+        
+        if (empty($data['bus'])) {
+            return redirect()->to(base_url('admin/bus'))->with('error', 'Data bus tidak ditemukan!');
+        }
+        
+        return view('admin/edit_bus', $data);
+    }
+
+    public function update_bus(int $id)
+    {
+        $this->proteksiAdmin();
+        $busModel = new \App\Models\BusModel();
+        
+        $busModel->update($id, [
+            'nama_bus'   => $this->request->getPost('nama_bus'),
+            'nomor_plat' => $this->request->getPost('nomor_plat'),
+            'kelas'      => $this->request->getPost('kelas'),
+            'kapasitas'  => $this->request->getPost('kapasitas'),
+        ]);
+
+        return redirect()->to(base_url('admin/bus'))->with('sukses', 'Data armada berhasil diperbarui!');
+    }
+
+    public function hapus_bus(int $id)
+    {
+        $this->proteksiAdmin();
+        $busModel = new \App\Models\BusModel();
+        
+        // Melakukan penghapusan berdasarkan ID
+        $busModel->delete($id);
+        
+        return redirect()->to(base_url('admin/bus'))->with('sukses', 'Data armada berhasil dihapus!');
     }
 
     public function keuangan()
     {
         $this->proteksiAdmin();
-        return view('admin/keuangan');
+
+        // 🔥 TAMBAHKAN INI DI AWAL FUNGSI UNTUK MENCEGAH ERROR
+        if (empty($this->transaksiModel)) {
+            $this->transaksiModel = new \App\Models\TransaksiModel();
+        }
+    
+    $data['transaksi'] = $this->transaksiModel->findAll();
+        
+        $total = 0;
+        foreach ($data['transaksi'] as $t) {
+            if (isset($t['status_pembayaran']) && $t['status_pembayaran'] === 'Lunas') {
+                $total += 150000; 
+            }
+        }
+        $data['total_pendapatan'] = $total;
+
+        return view('admin/keuangan', $data);
+    }
+
+    public function transaksi()
+    {
+        $this->proteksiAdmin();
+        $transaksiModel = new \App\Models\TransaksiModel();
+        $data['semua_transaksi'] = $transaksiModel->select('transaksi.*, users.username, jadwal.nama_bus, jadwal.tujuan')
+                                             ->join('users', 'users.id = transaksi.id_user')
+                                             ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                                             ->findAll();
+                                             
+        return view('admin/transaksi', $data);
     }
 
     public function ulasan()
     {
         $this->proteksiAdmin();
-        return view('admin/ulasan');
+        $data['semua_ulasan'] = $this->ulasanModel->findAll();
+        return view('admin/ulasan', $data);
     }
 }

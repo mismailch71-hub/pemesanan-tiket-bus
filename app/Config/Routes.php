@@ -29,9 +29,13 @@ $routes->get('riwayat', 'Pemesanan::riwayat');
 
 // 3. GRUP RUTE KHUSUS ADMIN (SISI ADMIN)
 $routes->group('admin', function($routes) {
-    // 🔥 Dashboard Utama Admin
     $routes->get('dashboard', 'Admin::dashboard'); 
-    
+    $routes->get('pengguna', 'Admin::pengguna');
+    $routes->get('bus', 'Admin::bus');             // <--- PASTIKAN INI ADA
+    $routes->get('jadwal', 'Admin::jadwal');
+    $routes->get('keuangan', 'Admin::keuangan');   // <--- PASTIKAN INI JUGA ADA
+    $routes->get('ulasan', 'Admin::ulasan');       // <--- PASTIKAN INI JUGA ADA
+
     // 1. Tampilan utama tabel user
     $routes->get('pengguna', 'Admin::pengguna');
 
@@ -52,7 +56,22 @@ $routes->group('admin', function($routes) {
     $routes->get('jadwal/edit/(:num)', 'Admin::edit_jadwal/$1');
     $routes->post('jadwal/update/(:num)', 'Admin::update_jadwal/$1');
     $routes->get('jadwal/hapus/(:num)', 'Admin::hapus_jadwal/$1');
+
+    $routes->get('bus', 'Admin::bus');
+    $routes->get('bus/tambah', 'Admin::tambah_bus'); // Form tambah
+    $routes->post('bus/simpan', 'Admin::simpan_bus'); // Proses simpan
+    $routes->get('bus/edit/(:num)', 'Admin::edit_bus/$1'); // Form edit
+    $routes->post('bus/update/(:num)', 'Admin::update_bus/$1'); // Proses update
+    $routes->get('bus/hapus/(:num)', 'Admin::hapus_bus/$1'); // Proses hapus
 });
+
+$routes->get('penumpang/dashboard', 'Penumpang::dashboard');
+$routes->get('jadwal', 'Penumpang::jadwal');
+$routes->get('penumpang/riwayat', 'Penumpang::riwayat');
+$routes->get('pilih-kursi/(:num)', 'Penumpang::pilih_kursi/$1');
+$routes->post('penumpang/pesan_tiket', 'Penumpang::pesan_tiket');
+
+
 
 
 // 4. 🔥 TAMBAHAN: GRUP RUTE OPERASIONAL (SISI PETUGAS TERMINAL) 🔥

@@ -96,4 +96,29 @@ class Auth extends BaseController
         session()->destroy();
         return redirect()->to(base_url('login'));
     }
+
+    public function auth_process()
+    {
+        $userModel = new \App\Models\UserModel();
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
+        
+        $user = $userModel->where('username', $username)->first();
+        
+        if ($user && password_verify($password, $user['password'])) {
+        // PENTING: Simpan ID ke dalam session
+            $sessionData = [
+                'id'       => $user['id'], // Pastikan nama kolom 'id' sesuai database Anda
+                'username' => $user['username'],
+                'role'     => $user['role'],
+                'logged_in'=> TRUE
+            ];
+            session()->set($sessionData);
+        
+        // Arahkan ke dashboard sesuai role
+            return redirect()->to(base_url($user['role'] . '/dashboard'));
+        } else {
+            return redirect()->back()->with('error', 'Username atau password salah!');
+        }
+    }
 }

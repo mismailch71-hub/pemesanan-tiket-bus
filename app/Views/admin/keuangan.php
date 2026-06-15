@@ -1,47 +1,48 @@
 <?= $this->extend('layout/sidebar'); ?>
-
 <?= $this->section('content'); ?>
 <div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">Laporan Omzet Keuangan</h3>
-    <p class="txt-secondary">Rekapitulasi total penjualan tiket masuk sistem</p>
+    <h3 class="fw-bold text-dark mb-1">📊 Rekapitulasi Laporan Keuangan</h3>
+    <p class="text-secondary">Pantau total omset penjualan tiket masuk Smart Bus</p>
 </div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-6">
-        <div class="card border-0 shadow-sm p-4 bg-primary text-white">
-            <h6>Total Pendapatan Bulan Ini</h6>
-            <h2 class="fw-bold">Rp 8.450.000</h2>
-        </div>
-    </div>
-    <div class="col-md-6">
-        <div class="card border-0 shadow-sm p-4 bg-dark text-white">
-            <h6>Total Tiket Terjual</h6>
-            <h2 class="fw-bold">34 Tiket</h2>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm bg-primary text-white p-4 rounded-3">
+            <h6 class="text-uppercase small fw-bold opacity-75">Total Omset Pendapatan</h6>
+            <h2 class="fw-bold mb-0">Rp <?= number_format($total_pendapatan, 0, ',', '.'); ?></h2>
         </div>
     </div>
 </div>
 
 <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
-    <h5 class="fw-bold mb-3">log transaksi Masuk</h5>
+    <h5 class="fw-bold mb-3">Arus Transaksi Tiket</h5>
     <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
                 <tr>
-                    <th>ID Transaksi</th>
-                    <th>Tanggal</th>
-                    <th>Pelanggan</th>
-                    <th>Metode</th>
+                    <th>No</th>
+                    <th>ID User Pelanggan</th>
+                    <th>No. Kursi</th>
                     <th>Total Bayar</th>
+                    <th>Status Pembayaran</th>
                 </tr>
             </thead>
             <tbody>
+                <?php $no = 1; foreach($transaksi as $t): ?>
                 <tr>
-                    <td>TRX-99821</td>
-                    <td>12 Juni 2026</td>
-                    <td>farhan M.</td>
-                    <td><span class="badge bg-info">QRIS</span></td>
-                    <td class="fw-bold text-success">Rp 250.000</td>
+                    <td><?= $no++; ?></td>
+                    <td><strong>User #<?= esc($t['id_user']); ?></strong></td>
+                    <td><span class="badge bg-light text-dark border">Kursi <?= esc($t['nomor_kursi'] ?? '-'); ?></span></td>
+                    <td class="text-success fw-bold">Rp 150.000</td>
+                    <td><span class="badge bg-success"><?= esc($t['status_pembayaran'] ?? 'Lunas'); ?></span></td>
                 </tr>
+                <?php endforeach; ?>
+                
+                <?php if(empty($transaksi)): ?>
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Belum ada riwayat transaksi masuk.</td>
+                </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>

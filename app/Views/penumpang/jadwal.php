@@ -1,11 +1,15 @@
+<?= $this->extend('layout/sidebar'); ?>
+
+<?= $this->section('content'); ?>
+
 <div class="row mb-4 align-items-center">
     <div class="col-md-6">
-        <h3 class="fw-bold"> Rute & Jadwal Keberangkatan</h3>
+        <h3 class="fw-bold">Rute & Jadwal Keberangkatan</h3>
     </div>
     <div class="col-md-6">
         <form action="<?= base_url('jadwal') ?>" method="get" class="d-flex">
             <input type="text" name="cari" class="form-control me-2" placeholder="Cari kota asal atau tujuan..." value="<?= esc($keyword ?? '') ?>">
-            <button type="submit" class="bt btn-primary px-4">Cari</button>
+            <button type="submit" class="btn btn-primary px-4">Cari</button>
         </form>
     </div>        
 </div>
@@ -30,9 +34,9 @@
                     <td><?= esc($j['asal']) ?></td>
                     <td><?= esc($j['tujuan']) ?></td>
                     <td><?= date('H:i', strtotime($j['jam_keberangkatan'])) ?> WITA</td>
-                    <td class="text-succes fw-bold">Rp <?= number_format($j['harga'], 0, ',', '.') ?></td>
+                    <td class="text-success fw-bold">Rp <?= number_format($j['harga'], 0, ',', '.') ?></td>
                     <td class="text-center">
-                        <a href="<?=  base_url('pilih-kursi/'.$j['id']) ?>" class="btn btn-sm btn-succes px-3">Pesan Kursi</a>
+                        <a href="<?= base_url('pilih-kursi/'.$j['id']) ?>" class="btn btn-sm btn-success px-3">Pesan Kursi</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -44,3 +48,5 @@
         </tbody>
     </table>
 </div>
+
+<?= $this->endSection(); ?>

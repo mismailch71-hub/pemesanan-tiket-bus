@@ -1,3 +1,4 @@
+<?php /** @var array $daftar_bus */ ?>
 <?=  $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
@@ -9,7 +10,7 @@
 <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
     <div classs="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Daftar Bus Aktif</h5>
-        <button class="btn btn-success btn-sm fw-bold">➕ Tambah Armada</button> 
+        <a href="<?= base_url('admin/bus/tambah'); ?>" class="btn btn-success btn-sm fw-bold">➕ Tambah Armada</a> 
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middl">
@@ -24,17 +25,19 @@
                 </tr>
             </thead>
             <tbody>
+                <?php $no = 1; foreach($daftar_bus as $b): ?>
                 <tr>
-                    <td>1</td>
-                    <td><strong>SmartesBus Executive 01</strong></td>
-                    <td>DR 7777 AA</td>
-                    <td>m.ismail.ch71@gmail.com</td>
-                    <td><span class="badge bg-danger">Executive (2+2)</span></td>
+                    <td><?= $no++; ?></td>
+                    <td><strong><?= esc($b['nama_bus']); ?></strong></td>
+                    <td><?= esc($b['nomor_plat']); ?></td>
+                    <td><span class="badge bg-secondary"><?= esc($b['kelas']); ?></span></td>
+                    <td><?= esc($b['kapasitas']); ?> Kursi</td>
                     <td>
-                        <button class="btn btn-sm btn-warning">Edit</button>
-                        <button class="btn btn-sm btn-danger">Hapus</button>
+                        <a href="<?= base_url('admin/bus/edit/' . $b['id']); ?>" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="<?= base_url('admin/bus/hapus/' . $b['id']); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')">Hapus</a>
                     </td>
                 </tr>
+                <?php endforeach; ?>
             </tbody>
         </table>
     </div>
