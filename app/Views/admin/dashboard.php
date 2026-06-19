@@ -10,8 +10,8 @@
     <div class="col-md-3">
         <div class="card bg-primary text-white border-0 shadow-sm rounded-3">
             <div class="card-body p-4">
-                <h6 class="text-white-50 text-uppercase small fw-bold">Total Armada Bus</h6>
-                <h2 class="fw-bold mb-0">12 Bus</h2>
+                <h6 class="text-white-50 text-uppercase small fw-bold">Total Bus</h6>
+                <h2 class="fw-bold mb-0"><?= $total_bus ?> Bus</h2>
             </div>
         </div>
     </div>
@@ -19,15 +19,15 @@
         <div class="card bg-success text-white border-0 shadow-sm rounded-3">
             <div class="card-body p-4">
                 <h6 class="text-white-50 text-uppercase small fw-bold">Laporan Pemasukan</h6>
-                <h2 class="fw-bold mb-0">Rp 8.450.000</h2>
+                <h2 class="fw-bold mb-0">Rp <?= number_format($total_pemasukan, 0, ',', '.') ?></h2>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card bg-warning text-dark border-0 shadow-sm rounded-3">
             <div class="card-body p-4">
-                <h6 class="text-dark-50 text-uppercase small fw-bold">Jadwal Teks</h6>
-                <h2 class="fw-bold mb-0">24 Rute</h2>
+                <h6 class="text-dark-50 text-uppercase small fw-bold">Total Transaksi</h6>
+                <h2 class="fw-bold mb-0"><?= $total_transaksi ?></h2>
             </div>
         </div>
     </div>
@@ -67,26 +67,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><strong>Farhan M.</strong></td>
-                            <td>Mataram ➔ Denpasar</td>
-                            <td><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2">Lunas</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Yoga Adiguna</strong></td>
-                            <td>Sumbawa ➔ Mataram</td>
-                            <td><span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2">Lunas</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Rafi Asyari</strong></td>
-                            <td>Mataram ➔ Labuan Bajo</td>
-                            <td><span class="badge bg-warning-subtle text-warning border border-warning-subtle rounded-pill px-2">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Ismail C.</strong></td>
-                            <td>Mataram ➔ Denpasar</td>
-                            <td><span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2">Gagal</span></td>
-                        </tr>
+                        <?php if(!empty($transaksi_terbaru)): ?>
+                            <?php foreach($transaksi_terbaru as $t): ?>
+                            <tr>
+                                <td><strong><?= esc($t['username']) ?></strong></td>
+                                <td><?= esc($t['rute_tujuan']) ?></td>
+                                <td>
+                                    <?php 
+                                        $statusClass = ($t['status_pembayaran'] == 'Lunas') ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning';
+                                    ?>
+                                    <span class="badge <?= $statusClass ?> border rounded-pill px-2">
+                                        <?= $t['status_pembayaran'] ?>
+                                    </span>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="3" class="text-center text-muted">Belum ada transaksi terbaru.</td>
+                            </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -94,18 +94,14 @@
     </div>
 </div>
 
-<div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
-    <h5 class="fw-bold text-secondary mb-3">Aksi Cepat Pengelolaan Sistem</h5>
-    <div class="row g-2">
-        <div class="col-md-4">
-            <a href="<?= base_url('admin/pengguna'); ?>" class="btn btn-outline-primary py-3 w-100 fw-bold">👥 Kelola Akun Petugas / Pelanggan</a>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="btn btn-outline-success py-3 w-100 fw-bold">🚌 Pengaturan Unit Armada</a>
-        </div>
-        <div class="col-md-4">
-            <a href="#" class="btn btn-outline-warning py-3 w-100 fw-bold">📅 Atur Jam & Rute Keberangkatan</a>
-        </div>
-    </div>
-</div>
+<script>
+    const grafikData = {
+        labels: <?= json_encode($grafik_label) ?>,
+        data: <?= json_encode($grafik_data) ?>
+    };
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="<?= base_url('js/dashboard-chart.js') ?>"></script>
+
 <?= $this->endSection(); ?>

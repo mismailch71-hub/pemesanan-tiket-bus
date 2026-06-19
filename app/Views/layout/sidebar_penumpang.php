@@ -1,7 +1,7 @@
 <div class="sidebar shadow">
     <div class="p-3 text-white text-center border-bottom border-secondary">
         <h5 class="fw-bold mb-0 text-warning">🚌 SMART BUS</h5>
-        <small class="text-white-50 text-uppercase tracking-wider" style="font-size: 0.7rem;">Panel Penumpang</small>
+        <small class="text-white-50 text-uppercase tracking-wider" style="font-size: 0.7rem;">Penumpang</small>
     </div>
     
     <div class="py-2">

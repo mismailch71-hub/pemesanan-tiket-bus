@@ -32,8 +32,49 @@ class Admin extends BaseController
 
     public function dashboard()
     {
-        $this->proteksiAdmin();
-        return view('admin/dashboard');
+        // 1. Load Model
+        $busModel = new \App\Models\BusModel();
+        $transaksiModel = new \App\Models\TransaksiModel();
+        $userModel = new \App\Models\UserModel();
+
+        // 2. Data Statistik (Kartu)
+        $data['total_bus'] = $busModel->countAllResults();
+        $data['total_transaksi'] = $transaksiModel->countAllResults();
+        $data['total_pemasukan'] = $transaksiModel->where('status_pembayaran', 'Lunas')
+                                              ->selectSum('total_harga')
+                                              ->get()->getRow()->total_harga ?? 0;
+
+        // 3. Logika Dinamis Grafik (Pendapatan per Bulan)
+        $query = $transaksiModel->select("DATE_FORMAT(created_at, '%b') as bulan, SUM(total_harga) as total")
+                            ->where('status_pembayaran', 'Lunas')
+                            ->groupBy("bulan")
+                            ->orderBy("MAX(created_at)", "ASC")
+                            ->findAll();
+
+        $labels = [];
+        $data_grafik = [];
+
+        // Jika data ada, masukkan ke array; jika kosong, isi array kosong agar tidak error
+        if (!empty($query)) {
+            foreach ($query as $row) {
+                $labels[] = $row['bulan'];
+                $data_grafik[] = $row['total'];
+            }
+        }
+
+        $data['grafik_label'] = $labels;
+        $data['grafik_data'] = $data_grafik;
+
+        // 4. Ambil 5 Transaksi terbaru dengan Join
+        $data['transaksi_terbaru'] = $transaksiModel->select('transaksi.*, users.username, jadwal.asal, jadwal.tujuan')
+                                                ->join('users', 'users.id = transaksi.id_user')
+                                                ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                                                ->orderBy('transaksi.created_at', 'DESC')
+                                                ->limit(5)
+                                                ->findAll();
+
+        // 5. Return ke View
+        return view('admin/dashboard', $data);
     }
 
     public function pengguna()
@@ -46,7 +87,7 @@ class Admin extends BaseController
     public function tambah_pengguna()
     {
         $this->proteksiAdmin();
-        return view('admin/tambah');
+        return view('admin/tambah_pengguna');
     }
 
     public function simpan_pengguna()
@@ -65,7 +106,7 @@ class Admin extends BaseController
     {
         $this->proteksiAdmin();
         $data['user'] = $this->userModel->find($id);
-        return view('admin/edit', $data);
+        return view('admin/edit_pengguna', $data);
     }
 
     public function update_pengguna(int $id)
