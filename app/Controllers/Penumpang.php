@@ -7,22 +7,40 @@ use App\Models\TransaksiModel;
 
 class Penumpang extends BaseController
 {
-    public function __construct()
-    {
-        if (!session()->get('logged_in')) {
-            header('Location: ' . base_url('login'));
-            exit();
-        }
-    }
     // --- 1. Dashboard ---
     public function dashboard()
     {
-        return view('penumpang/dashboard');
+        // Pengecekan sesi sekali saja
+        if (!session()->get('logged_in')) {
+            return redirect()->to(base_url('login'));
+        }
+
+        $transaksiModel = new TransaksiModel();
+        $id_user = session()->get('id');
+
+        // Ambil tiket
+        $data['tiket_user'] = $transaksiModel->select('transaksi.*, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')
+                                             ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                                             ->where('transaksi.id_user', $id_user)
+                                             ->findAll();
+
+        // Hitung statistik
+        $data['jumlah_tiket_aktif'] = $transaksiModel->where('id_user', $id_user)
+                                                     ->where('status_pembayaran', 'Pending')
+                                                     ->countAllResults();
+
+        $data['jumlah_selesai'] = $transaksiModel->where('id_user', $id_user)
+                                                 ->where('status_pembayaran', 'Lunas')
+                                                 ->countAllResults();
+
+        return view('penumpang/dashboard', $data);
     }
 
-    // --- 2. Menu Jadwal & Pemesanan (Digabung) ---
+    // --- 2. Jadwal & Pemesanan ---
     public function jadwal()
     {
+        if (!session()->get('logged_in')) return redirect()->to(base_url('login'));
+
         $jadwalModel = new JadwalModel();
         $keyword = $this->request->getGet('cari');
         
@@ -34,43 +52,40 @@ class Penumpang extends BaseController
         return view('penumpang/jadwal', $data);
     }
 
-    public function pilih_kursi($id_jadwal)
-    {
-        $data['jadwal'] = (new JadwalModel())->find($id_jadwal);
-        return view('penumpang/pilih_kursi', $data);
-    }
-
     public function pesan_tiket()
     {
-    // Debug: Cek apakah ID user ada
-    if (!session()->has('id')) {
-        die("Error: Session ID kosong! Anda mungkin belum login.");
+        if (!session()->has('id')) {
+            return redirect()->to(base_url('login'))->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        $transaksiModel = new TransaksiModel();
+        $jadwalModel = new JadwalModel();
+        $jadwal = $jadwalModel->find($this->request->getPost('id_jadwal'));
+
+        $data = [
+            'id_user'           => session()->get('id'),
+            'id_jadwal'         => $this->request->getPost('id_jadwal'),
+            'nomor_kursi'       => $this->request->getPost('nomor_kursi'),
+            'total_harga'       => $jadwal['harga'] ?? 0, 
+            'status_pembayaran' => 'Pending',
+            'created_at'        => date('Y-m-d H:i:s')
+        ];
+        
+        $transaksiModel->insert($data);
+        return redirect()->to(base_url('penumpang/riwayat'))->with('success', 'Tiket berhasil dipesan!');
     }
 
-    $transaksiModel = new TransaksiModel();
-    $data = [
-        'id_user'     => session()->get('id'),
-        'id_jadwal'   => $this->request->getPost('id_jadwal'),
-        'nomor_kursi' => $this->request->getPost('nomor_kursi'),
-        'status_pembayaran' => 'Pending'
-    ];
-    
-    $transaksiModel->insert($data);
-    return redirect()->to(base_url('penumpang/riwayat'))->with('success', 'Tiket berhasil dipesan!');
-    }
-
-    // --- 3. Menu Riwayat & Tiket (Digabung) ---
+    // --- 3. Riwayat ---
     public function riwayat()
     {
-        $transaksiModel = new \App\Models\TransaksiModel();
-        $data['transaksi'] = $transaksiModel->where('id_user', session()->get('id'))->findAll();
-        return view('penumpang/riwayat', $data);
-    }
+        if (!session()->get('logged_in')) return redirect()->to(base_url('login'));
 
-    public function tiket_digital($id_transaksi)
-    {
         $transaksiModel = new TransaksiModel();
-        $data['tiket'] = $transaksiModel->find($id_transaksi);
-        return view('penumpang/tiket_digital', $data);
+        $data['transaksi'] = $transaksiModel->select('transaksi.*, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')
+                                            ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                                            ->where('transaksi.id_user', session()->get('id'))
+                                            ->findAll();
+        
+        return view('penumpang/riwayat', $data);
     }
 }

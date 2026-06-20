@@ -35,7 +35,7 @@
         <div class="card bg-info text-white border-0 shadow-sm rounded-3">
             <div class="card-body p-4">
                 <h6 class="text-white-50 text-uppercase small fw-bold">Ulasan Pengguna</h6>
-                <h2 class="fw-bold mb-0">15 Review</h2>
+                <h2 class="fw-bold mb-0"><?= $total_ulasan ?> Review</h2>
             </div>
         </div>
     </div>
@@ -71,7 +71,7 @@
                             <?php foreach($transaksi_terbaru as $t): ?>
                             <tr>
                                 <td><strong><?= esc($t['username']) ?></strong></td>
-                                <td><?= esc($t['rute_tujuan']) ?></td>
+                                <td><?= esc($t['asal']) . '➔' .esc($t['tujuan']); ?></td>
                                 <td>
                                     <?php 
                                         $statusClass = ($t['status_pembayaran'] == 'Lunas') ? 'bg-success-subtle text-success' : 'bg-warning-subtle text-warning';

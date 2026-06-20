@@ -36,6 +36,7 @@ class Admin extends BaseController
         $busModel = new \App\Models\BusModel();
         $transaksiModel = new \App\Models\TransaksiModel();
         $userModel = new \App\Models\UserModel();
+        $ulasanModel = new \App\Models\UlasanModel();
 
         // 2. Data Statistik (Kartu)
         $data['total_bus'] = $busModel->countAllResults();
@@ -72,6 +73,8 @@ class Admin extends BaseController
                                                 ->orderBy('transaksi.created_at', 'DESC')
                                                 ->limit(5)
                                                 ->findAll();
+        
+        $data['total_ulasan'] = $ulasanModel->countAllResults();
 
         // 5. Return ke View
         return view('admin/dashboard', $data);

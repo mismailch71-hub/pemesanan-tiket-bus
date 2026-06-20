@@ -22,8 +22,8 @@
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-secondary">Kelas Bus</label>
                         <select name="kelas" class="form-select" required>
-                            <option value="Executive">Executive (2+2)</option>
-                            <option value="Bisnis">Bisnis (2+3)</option>
+                            <option value="Executive">Executive </option>
+                            <option value="Bisnis">Bisnis </option>
                             <option value="Ekonomi">Ekonomi</option>
                         </select>
                     </div>
@@ -35,7 +35,7 @@
 
                     <div class="d-flex justify-content-between">
                         <a href="<?= base_url('admin/bus') ?>" class="btn btn-light border fw-bold">Batal</a>
-                        <button type="submit" class="btn btn-success px-4 f-bold">Simpan Armada</button>
+                        <button type="submit" class="btn btn-success px-4 f-bold">Simpan</button>
                     </div>
                 </form>
             </div>

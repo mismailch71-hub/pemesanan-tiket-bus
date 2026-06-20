@@ -1,4 +1,4 @@
-<?= $this->extend('layout/sidebar.php'); ?>
+<?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
 

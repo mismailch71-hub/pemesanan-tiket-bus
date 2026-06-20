@@ -7,8 +7,8 @@
     <div class="py-2">
         <a href="<?= base_url('penumpang/dashboard'); ?>" class="nav-link">📊 Dashboard</a>
         
-        <a href="<?= base_url('jadwal'); ?>" class="nav-link">🔍 Cari & Pesan Tiket</a>
-        
+        <a href="<?= base_url('penumpang/jadwal'); ?>" class="nav-link">Cari & Pesan Tiket</a>
+
         <a href="<?= base_url('penumpang/riwayat'); ?>" class="nav-link">📋 Riwayat & E-Tiket</a>
         
         <hr class="text-white my-3">

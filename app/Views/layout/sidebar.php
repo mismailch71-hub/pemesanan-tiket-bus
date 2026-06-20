@@ -10,8 +10,14 @@
 <body>
 
     <?php 
-        $role = session()->get('role');
+    $role = session()->get('role');
+        if ($role) {
+        // Pastikan nama file adalah 'sidebar_admin.php', 'sidebar_penumpang.php', dll
         echo view('layout/sidebar_' . $role); 
+        } else {
+        // Tindakan jika role tidak ditemukan (arahkan ke login atau tampilkan pesan)
+        echo '<div class="alert alert-danger">Sesi tidak valid. Silakan <a href="' . base_url('login') . '">Login kembali</a>.</div>';
+        }
     ?>
 
     <div class="main-content">

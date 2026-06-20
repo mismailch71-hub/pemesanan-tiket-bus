@@ -36,7 +36,7 @@
                     <td><?= date('H:i', strtotime($j['jam_keberangkatan'])) ?> WITA</td>
                     <td class="text-success fw-bold">Rp <?= number_format($j['harga'], 0, ',', '.') ?></td>
                     <td class="text-center">
-                        <a href="<?= base_url('pilih-kursi/'.$j['id']) ?>" class="btn btn-sm btn-success px-3">Pesan Kursi</a>
+                        <a href="<?= base_url('penumpang/pilih-kursi/'.$j['id']) ?>" class="btn btn-sm btn-success px-3">Pesan Kursi</a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
