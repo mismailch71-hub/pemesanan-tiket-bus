@@ -19,7 +19,7 @@
                 </div>
                 <div class="mb-3">
                     <label>Isi Pengumuman</label>
-                    <textarea name="isi" class="form-contorl" rows="3" required></textarea>
+                    <textarea name="isi" class="form-control" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan Pengumuman</button>
             </form>
