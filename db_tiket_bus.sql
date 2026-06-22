@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 19, 2026 at 12:36 PM
+-- Generation Time: Jun 22, 2026 at 05:15 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -51,9 +51,9 @@ INSERT INTO `bus` (`id`, `nama_bus`, `nomor_plat`, `kelas`, `kapasitas`) VALUES
 
 CREATE TABLE `jadwal` (
   `id` int NOT NULL,
-  `nama_bus` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `asal` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `tujuan` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_bus` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `asal` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tujuan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `jam_keberangkatan` time NOT NULL,
   `harga` int NOT NULL,
   `total_kursi` int NOT NULL
@@ -79,8 +79,8 @@ CREATE TABLE `pemesanan` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
   `id_jadwal` int NOT NULL,
-  `nomor_kursi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `status_pembayaran` enum('Pending','Lunas','Dibatalkan') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `nomor_kursi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_pembayaran` enum('Pending','Lunas','Dibatalkan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `tanggal_pesan` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -94,8 +94,8 @@ CREATE TABLE `pemesanan_tiket` (
   `id` int NOT NULL,
   `id_user` int DEFAULT NULL,
   `id_jadwal` int DEFAULT NULL,
-  `nomor_kursi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `status_pembayaran` enum('Belum Bayar','Lunas') COLLATE utf8mb4_general_ci DEFAULT 'Belum Bayar'
+  `nomor_kursi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_pembayaran` enum('Belum Bayar','Lunas') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Belum Bayar'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -110,6 +110,20 @@ INSERT INTO `pemesanan_tiket` (`id`, `id_user`, `id_jadwal`, `nomor_kursi`, `sta
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pengumuman`
+--
+
+CREATE TABLE `pengumuman` (
+  `id` int NOT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `isi` text COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('aktif','nonaktif') COLLATE utf8mb4_general_ci DEFAULT 'aktif',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transaksi`
 --
 
@@ -117,8 +131,8 @@ CREATE TABLE `transaksi` (
   `id` int NOT NULL,
   `id_user` int NOT NULL,
   `id_jadwal` int NOT NULL,
-  `nomor_kursi` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
-  `status_pembayaran` enum('Pending','Lunas','Dibatalkan') COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `nomor_kursi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `status_pembayaran` enum('Pending','Lunas','Dibatalkan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
   `total_harga` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -145,8 +159,8 @@ CREATE TABLE `ulasan` (
 
 CREATE TABLE `users` (
   `id` int NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `role` enum('admin','petugas','penumpang') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'penumpang'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -163,7 +177,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
 (10, 'ismail', '123', 'penumpang'),
 (11, '777', 'dor123', 'petugas'),
 (12, 'mail', '123', 'penumpang'),
-(13, 'mail', '123', 'penumpang');
+(13, 'mail', '123', 'penumpang'),
+(14, 'inaz', '777', 'penumpang');
 
 --
 -- Indexes for dumped tables
@@ -196,6 +211,12 @@ ALTER TABLE `pemesanan_tiket`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`),
   ADD KEY `id_jadwal` (`id_jadwal`);
+
+--
+-- Indexes for table `pengumuman`
+--
+ALTER TABLE `pengumuman`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `transaksi`
@@ -246,6 +267,12 @@ ALTER TABLE `pemesanan_tiket`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `pengumuman`
+--
+ALTER TABLE `pengumuman`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -261,7 +288,7 @@ ALTER TABLE `ulasan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Constraints for dumped tables
