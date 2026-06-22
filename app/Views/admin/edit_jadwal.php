@@ -10,7 +10,7 @@
                 
                 <form action="<?= base_url('admin/jadwal/update/' . $jadwal['id']) ?>" method="post">
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Nama Bus / Armada</label>
+                        <label class="form-label small fw-bold text-secondary">Nama Bus </label>
                         <input type="text" name="nama_bus" class="form-control" value="<?= $jadwal['nama_bus'] ?>" required>
                     </div>
 

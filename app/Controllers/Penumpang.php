@@ -10,8 +10,7 @@ class Penumpang extends BaseController
     // --- 1. Dashboard ---
     public function dashboard()
     {
-        // Pengecekan sesi sekali saja
-        if (!session()->get('logged_in')) {
+        if (!session()->get('isLoggedIn')) {
             return redirect()->to(base_url('login'));
         }
 
@@ -39,7 +38,8 @@ class Penumpang extends BaseController
     // --- 2. Jadwal & Pemesanan ---
     public function jadwal()
     {
-        if (!session()->get('logged_in')) return redirect()->to(base_url('login'));
+        if (!session()->get('isLoggedIn')) 
+            return redirect()->to(base_url('login'));
 
         $jadwalModel = new JadwalModel();
         $keyword = $this->request->getGet('cari');
@@ -78,7 +78,8 @@ class Penumpang extends BaseController
     // --- 3. Riwayat ---
     public function riwayat()
     {
-        if (!session()->get('logged_in')) return redirect()->to(base_url('login'));
+        if (!session()->get('isLoggedIn')) 
+            return redirect()->to(base_url('login'));
 
         $transaksiModel = new TransaksiModel();
         $data['transaksi'] = $transaksiModel->select('transaksi.*, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')

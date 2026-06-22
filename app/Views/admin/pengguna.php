@@ -1,4 +1,3 @@
-<?php /** @var array $semua_pengguna */ ?>
 <?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>

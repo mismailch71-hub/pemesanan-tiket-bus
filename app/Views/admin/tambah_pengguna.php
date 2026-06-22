@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Alamat Email</label>
+                        <label class="form-label small fw-bold text-secondary">Email</label>
                         <input type="email" name="email" class="form-control" placeholder="Contoh: nama@gmail.com" required>
                     </div>
 
@@ -32,9 +32,9 @@
                         <label class="form-label small fw-bold text-secondary">Role / Hak Akses</label>
                         <select name="role" class="form-select" required>
                             <option value="" disabled selected>-- Pilih Role --</option>
-                            <option value="Super Admin">Super Admin</option>
-                            <option value="Petugas">Petugas Loket</option>
-                            <option value="Pelanggan">Pelanggan</option>
+                            <option value="admin"> Admin</option>
+                            <option value="petugas">Petugas </option>
+                            <option value="pelanggan">Penumpang</option>
                         </select>
                     </div>
 

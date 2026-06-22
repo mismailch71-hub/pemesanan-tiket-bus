@@ -8,86 +8,54 @@ class Auth extends BaseController
 {
     public function login()
     {
-        // Jika pengguna MEMANG SUDAH LOGIN, langsung alihkan ke halaman sesuai hak aksesnya
+        // Gunakan satu kunci 'isLoggedIn' untuk semua pengecekan
         if (session()->get('isLoggedIn')) {
             $role = session()->get('role');
-            if ($role === 'admin') {
-                return redirect()->to(base_url('admin/dashboard'));
-            } elseif ($role === 'petugas') {
-                return redirect()->to(base_url('petugas/dashboard'));
-            } else {
-                return redirect()->to(base_url('jadwal'));
-            }
+            return redirect()->to(base_url($role . '/dashboard'));
         }
-
-        // 🔥 Panggil langsung view login agar tampil Full Page tanpa terganggu navbar global
         return view('auth/login');
     }
 
     public function prosesLogin()
     {
         $userModel = new UserModel();
-        
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-
-        // Mencari data user berdasarkan username di database db_tiket_bus
         $user = $userModel->where('username', $username)->first();
 
-        if ($user) {
-            // Validasi string teks biasa (tanpa enkripsi password_hash demi kemudahan praktikum)
-            if ($password == $user['password']) {
-                
-                session()->set([
-                    'isLoggedIn' => true,
-                    'username'   => $user['username'],
-                    'role'       => $user['role'] 
-                ]);
+        if ($user && $password == $user['password']) {
+            session()->set([
+                'id'         => $user['id'], 
+                'isLoggedIn' => true,
+                'username'   => $user['username'],
+                'role'       => $user['role'] 
+            ]);
 
-                // Pengalihan halaman berdasarkan role tabel users
-                if ($user['role'] === 'admin') {
-                    return redirect()->to(base_url('admin/dashboard'));
-                } elseif ($user['role'] === 'petugas') {
-                    return redirect()->to(base_url('petugas/dashboard'));
-                } elseif ($user['role'] === 'penumpang' || $user['role'] === 'pelanggan') {
-                    return redirect()->to(base_url('jadwal'));
-                } else {
-                    return redirect()->to(base_url('jadwal'));
-                }
-
-            } else {
-                session()->setFlashdata('gagal_pesan', 'Password salah!');
-                return redirect()->to(base_url('login'));
-            }
-        } else {
-            session()->setFlashdata('gagal_pesan', 'Username tidak terdaftar!');
-            return redirect()->to(base_url('login'));
+            return redirect()->to(base_url($user['role'] . '/dashboard'));
         }
+
+        session()->setFlashdata('gagal_pesan', 'Username atau password salah!');
+        return redirect()->to(base_url('login'));
     }
 
     public function register()
     {
-        // Jika sudah login, tidak boleh mengakses halaman register kembali
+        // Ubah redirect agar sinkron dengan dashboard
         if (session()->get('isLoggedIn')) {
-            return redirect()->to(base_url('jadwal'));
+            return redirect()->to(base_url(session()->get('role') . '/dashboard'));
         }
-
-        // 🔥 Panggil langsung view register agar tetap rapi full page
         return view('auth/register');
     }
 
     public function prosesRegister()
     {
         $userModel = new UserModel();
-
-        // Menyimpan pendaftaran akun baru dengan role 'penumpang' agar sinkron dengan database Anda
         $userModel->save([
             'username' => $this->request->getPost('username'),
             'password' => $this->request->getPost('password'), 
             'role'     => 'penumpang' 
         ]);
-
-        session()->setFlashdata('sukses_pesan', 'Pendaftaran Akun berhasil! Silakan masuk.');
+        session()->setFlashdata('sukses_pesan', 'Pendaftaran berhasil!');
         return redirect()->to(base_url('login'));
     }
 
@@ -102,23 +70,18 @@ class Auth extends BaseController
         $userModel = new \App\Models\UserModel();
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        
         $user = $userModel->where('username', $username)->first();
         
+        // Samakan kunci sesi menjadi 'isLoggedIn'
         if ($user && password_verify($password, $user['password'])) {
-        // PENTING: Simpan ID ke dalam session
-            $sessionData = [
-                'id'       => $user['id'], // Pastikan nama kolom 'id' sesuai database Anda
-                'username' => $user['username'],
-                'role'     => $user['role'],
-                'logged_in'=> TRUE
-            ];
-            session()->set($sessionData);
-        
-        // Arahkan ke dashboard sesuai role
+            session()->set([
+                'id'         => $user['id'],
+                'username'   => $user['username'],
+                'role'       => $user['role'],
+                'isLoggedIn' => true 
+            ]);
             return redirect()->to(base_url($user['role'] . '/dashboard'));
-        } else {
-            return redirect()->back()->with('error', 'Username atau password salah!');
         }
+        return redirect()->back()->with('error', 'Username atau password salah!');
     }
 }

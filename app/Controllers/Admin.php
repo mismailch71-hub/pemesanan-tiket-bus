@@ -7,6 +7,7 @@ use App\Models\JadwalModel;
 use App\Models\BusModel;
 use App\Models\TransaksiModel;
 use App\Models\UlasanModel;
+use App\Models\PengumumanModel;
 
 class Admin extends BaseController
 {
@@ -15,6 +16,7 @@ class Admin extends BaseController
     protected BusModel $busModel;
     protected TransaksiModel $transaksiModel;
     protected UlasanModel $ulasanModel;
+    protected PengumumanModel $pengumumanModel;
 
     public function __construct() 
     {
@@ -96,11 +98,15 @@ class Admin extends BaseController
     public function simpan_pengguna()
     {
         $this->proteksiAdmin();
-        $this->userModel->save([
+        $data = [
+            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
             'username' => $this->request->getPost('username'),
+            'email' => $this->request->getPost('email'),
             'password' => $this->request->getPost('password'),
-            'role' => $this->request->getPost('role'),
-        ]);
+            'role' =>$this->request->getPost('role'),
+        ];
+
+        $this->userModel->insert($data);
 
         return redirect()->to(base_url('admin/pengguna'))->with('sukses', 'Pengguna baru berhasil didaftarkan!');
     }
@@ -294,10 +300,65 @@ class Admin extends BaseController
         return view('admin/transaksi', $data);
     }
 
+    public function update_status_keuangan($id)
+    {
+        $this->proteksiAdmin();
+        $transaksiModel = new \App\Models\TransaksiModel();
+
+        $transaksiModel->update($id, [
+            'status_pembayaran' => "Lunas"
+        ]);
+
+        return redirect()->to(base_url('admin/transaksi'))->with('sukses', 'Status pembayaran berhasil diubah ke Lunas!');
+    }
+
     public function ulasan()
     {
         $this->proteksiAdmin();
         $data['semua_ulasan'] = $this->ulasanModel->findAll();
         return view('admin/ulasan', $data);
     }
-}
+
+    public function hapus_ulasan($id)
+    {
+        $this->proteksiAdmin();
+        $this->ulasanModel->delete($id);
+        return redirect()->to(base_url('admin/ulasan'))->with('sukses', 'Ulasan berhasil dihapus.');
+    }
+
+    public function pengumuman()
+    {
+        $this->proteksiAdmin();
+        $data['pengumuman'] = $this->pengumumanModel->findAll();
+        return view('admin/pengumuman', $data);
+    }
+
+    public function simpan_pengumuman()
+    {
+        $this->proteksiAdmin();
+        $this->pengumumanModel->save([
+            'judul' => $this->request->getPost('judul'),
+            'isi' => $this->request->getPost('isi'),
+            'status' => 'aktif'
+        ]);
+        return redirect()->to(base_url('admin/pengumuman'))->with('sukses', 'Pengumuman berhasil ditambahkan!');
+    }
+
+    public function update_pengumuman($id)
+    {
+        $this->proteksiAdmin();
+        $this->pengumumanModel->update($id, [
+            'judul' => $this->request->getPost('judul'),
+            'isi' => $this->request->getPost('isi'),
+            'status' => $this->request->getPost('status')
+        ]);
+        return redirect()->to(base_url('admin/pengumuman'))->with('sukses', 'Pengumuman diperbarui');
+    }
+
+    public function hapus_pengumuman($id)
+    {
+        $this->proteksiAdmin();
+        $this->pengumumanModel->delete($id);
+        return redirect()->to(base_url('admin/pengumuman'))->with('sukses', 'Pengumuman dihapus!');
+    }
+} 

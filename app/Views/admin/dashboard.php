@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 <div class="mb-4">
     <h3 class="fw-bold text-dark mb-1">Selamat Datang Kembali!</h3>
-    <p class="text-secondary">Akun Aktif: <strong class="text-dark"><?= session()->get('username'); ?></strong> (Super Admin)</p>
+    <p class="text-secondary">Akun Aktif: <strong class="text-dark"><?= session()->get('username'); ?></strong> (Admin)</p>
 </div>
 
 <div class="row g-3 mb-4">
