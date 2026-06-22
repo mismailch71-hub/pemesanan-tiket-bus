@@ -54,11 +54,16 @@
                             </form>
                         </td>
                         <td>
-                            
+                            <a href="<?= base_url('admin/hapus_pengumuman/'.$p['id']) ?>"
+                                class="btn btn-danger btn-sm"
+                                onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                         </td>
                     </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<?= $this->endSection(); ?>
