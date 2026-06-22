@@ -34,9 +34,9 @@ $routes->group('admin', function($routes) {
     $routes->post('bus/update/(:num)', 'Admin::update_bus/$1');
     $routes->get('bus/hapus/(:num)', 'Admin::hapus_bus/$1');
     $routes->get('pengumuman', 'Admin::pengumuman');
-    $routes->post('pengumuman/save', 'Admin::save_pengumuman');
-    $routes->post('pengumuman/update', 'Admin::update_pengumuman');
-    $routes->get('pengumuman/delete/(:num)', 'Admin::hapus_pengumuman/$1');
+    $routes->post('simpan_pengumuman', 'Admin::simpan_pengumuman');
+    $routes->post('update_pengumuman/(:num)', 'Admin::update_pengumuman/$1');
+    $routes->get('hapus_pengumuman/(:num)', 'Admin::hapus_pengumuman/$1');
     $routes->get('keuangan', 'Admin::keuangan');
     $routes->get('ulasan', 'Admin::ulasan');
 });

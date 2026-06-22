@@ -44,7 +44,7 @@
                         <td><?= $p['isi'] ?></td>
                         <td>
                             <form action="<?= base_url('admin/update_pengumuman/'.$p['id']) ?>" method="post">
-                                <?= csrf_filed() ?>
+                                <?= csrf_field() ?>
                                 <input type="hidden" name="judul" value="<?= $p['judul'] ?>">
                                 <input type="hidden" name="isi" value="<?= $p['isi'] ?>">
                                 <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
