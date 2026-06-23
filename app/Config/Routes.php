@@ -52,4 +52,9 @@ $routes->group('penumpang', function($routes) {
 // D. GRUP PETUGAS
 $routes->group('petugas', function($routes) {
     $routes->get('dashboard', 'Petugas::dashboard');
+    $routes->get('validasi', 'Petugas::validasi');
+    $routes->post('validasi/proses', 'Petugas::prosesValidasi');
+    $routes->get('jadwal', 'Petugas::jadwal');
+    $routes->get('manifes', 'Petugas::manifes');
+    $routes->get('laporan', 'Petugas::laporan');
 });
