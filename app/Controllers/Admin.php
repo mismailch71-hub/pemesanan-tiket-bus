@@ -25,7 +25,7 @@ class Admin extends BaseController
         $this->ulasanModel = new UlasanModel();
         $this->busModel = new BusModel();
         $this->transaksiModel = new TransaksiModel();
-        $this->pengumumanModel = new pengumumanModel();
+        $this->pengumumanModel = new PengumumanModel();
     }
 
     private function proteksiAdmin()

@@ -10,70 +10,54 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="fw-bold">Halo, <?= esc(session()->get('username')); ?>! 👋</h3>
-    <a href="<?= base_url('penumpang/jadwal') ?>" class="btn btn-primary shadow-sm">
-        <i class="bi bi-search"></i> Pesan Tiket Baru
+    <a href="<?= base_url('penumpang/edit_profil') ?>" class="btn btn-primary shadow-sm">
+        <i class="bi bi-search"></i> Edit Profil
     </a>
 </div>
 
-<div class="row g-3 mb-4">
-    <div class="col-md-4">
-        <div class="card bg-primary text-white border-0 shadow-sm h-100">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Tiket Aktif</h6>
-                <h3 class="fw-bold mb-0"><?= $jumlah_tiket_aktif ?></h3>
-            </div>
-        </div>
+<div class="row">
+    <div class="col-md-6">
+        <h5 class="fw-bold mb-3"><i class="bi bi-megaphone"></i> Pengumuman Terbaru</h5>
+        <?php if (empty($pengumuman_list)): ?>
+            <idv class="card shadow-sm border-0">
+                <div class="card-body text-muted">Tidak ada pengumuman aktif.</div>
+            </idv>
+        <?php else: ?>
+            <?php foreach ($pengumuman_list as $p): ?>
+                <div class="card mb-3 shadow-sm border-0">
+                    <div class="card-body">
+                        <h6 class="fw-bold text-primary"><?= esc($p['judul']) ?></h6>
+                        <p class="small mb-0"><?= esc($p['isi']) ?></p>
+                        <small class="text-muted"><?= $p['created_at'] ?></small>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
     </div>
-    <div class="col-md-4">
-        <div class="card bg-success text-white border-0 shadow-sm h-100">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Perjalanan Selesai</h6>
-                <h3 class="fw-bold mb-0"><?= $jumlah_selesai ?></h3>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card bg-info text-white border-0 shadow-sm h-100">
-            <div class="card-body d-flex justify-content-between align-items-center">
-                <h6 class="mb-0">Total Tiket</h6>
-                <h3 class="fw-bold mb-0"><?= $jumlah_tiket_aktif + $jumlah_selesai ?></h3>
-            </div>
-        </div>
-    </div>
-</div>
 
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-bold mb-0">Riwayat Tiket Terakhir</h5>
-            <a href="<?= base_url('penumpang/riwayat') ?>" class="small text-decoration-none">Lihat semua &raquo;</a>
-        </div>
-        <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead>
-                    <tr><th>Rute</th><th>Status</th><th>Aksi</th></tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($tiket_user)): ?>
-                        <tr>
-                            <td colspan="3" class="text-center text-muted py-4">
-                                Belum ada tiket. <a href="<?= base_url('penumpang/jadwal') ?>">Pesan sekarang</a>
-                            </td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach (array_slice($tiket_user, 0, 5) as $t): ?>
-                        <tr>
-                            <td><?= esc($t['asal']) ?> ➔ <?= esc($t['tujuan']) ?></td>
-                            <td>
-                                <?php $badge = $t['status_pembayaran'] === 'Lunas' ? 'bg-success' : 'bg-warning text-dark'; ?>
-                                <span class="badge <?= $badge ?>"><?= esc($t['status_pembayaran']) ?></span>
-                            </td>
-                            <td><a href="<?= base_url('penumpang/riwayat') ?>" class="btn btn-sm btn-outline-primary">Detail</a></td>
-                        </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+    <div class="col-md-6">
+        <h5 class="fw-bold mb-3"><i class="bi bi-chat-qoute"></i> Berikan Ulasan Kami</h5>
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <form action="<?= base_url('penumpang/kirim_ulasan') ?>" method="post">
+                    <?= csrf_field() ?>
+                    <div class="mb-3">
+                        <label class="form-label">Rating</label>
+                        <select name="rating" class="form-select" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (Sangat Puas)</option>
+                            <option value="4">⭐⭐⭐⭐ (Puas)</option>
+                            <option value="3">⭐⭐⭐ (Cukup Puas)</option>
+                            <option value="2">⭐⭐ (Tidak Puas)</option>
+                            <option value="1">⭐ (Sangat Tidak Puas)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Isi Ulasan</label>
+                        <textarea name="isi" class="form-control" orws="3" required placeholder="Tuliskan pengalaman Anda..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Kirim Ulasan</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

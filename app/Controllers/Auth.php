@@ -40,7 +40,6 @@ class Auth extends BaseController
 
     public function register()
     {
-        // Ubah redirect agar sinkron dengan dashboard
         if (session()->get('isLoggedIn')) {
             return redirect()->to(base_url(session()->get('role') . '/dashboard'));
         }
@@ -72,7 +71,7 @@ class Auth extends BaseController
         $password = $this->request->getPost('password');
         $user = $userModel->where('username', $username)->first();
         
-        // Samakan kunci sesi menjadi 'isLoggedIn'
+
         if ($user && password_verify($password, $user['password'])) {
             session()->set([
                 'id'         => $user['id'],

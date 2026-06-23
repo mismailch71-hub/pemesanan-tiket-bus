@@ -1,0 +1,35 @@
+.grid-kursi {
+    display: grid !important;
+    grid-template-columns: repeat(10,1fr) !important;
+    gap: 8px;
+    margin-top: 15px;
+}
+.kursi {
+    padding: 10px 5px;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: 0.2s;
+    background-color: transparent;
+}
+.terpesan{
+    background-color: #d1e7dd;
+    color: #0f5132;
+    cursor: not-allowed;
+    border-color: #a3cfbb;
+}
+.kursi:hover {
+    background-color: #f0f0f0;
+}
+input[type="checkbox"]:checked + label {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+.kursi.disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: #e9ecef;
+}

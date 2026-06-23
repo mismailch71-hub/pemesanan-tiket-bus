@@ -1,4 +1,5 @@
-<?php /** @var array $user */ ?> <?= $this->extend('layout/sidebar'); ?>
+<?php /** @var array $user */ ?> 
+<?= $this->extend('layout/sidebar'); ?>
 <?= $this->section('content'); ?>
 
 <div class="row justify-content-center">

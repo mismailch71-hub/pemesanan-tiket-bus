@@ -7,7 +7,7 @@
         <h3 class="fw-bold">Rute & Jadwal Keberangkatan</h3>
     </div>
     <div class="col-md-6">
-        <form action="<?= base_url('jadwal') ?>" method="get" class="d-flex">
+        <form action="<?= base_url('penumpang/jadwal') ?>" method="get" class="d-flex">
             <input type="text" name="cari" class="form-control me-2" placeholder="Cari kota asal atau tujuan..." value="<?= esc($keyword ?? '') ?>">
             <button type="submit" class="btn btn-primary px-4">Cari</button>
         </form>
