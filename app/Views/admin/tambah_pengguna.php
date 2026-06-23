@@ -5,7 +5,7 @@
     <div class="col-md-6">
         <div class="card shadow border-0 rounded-3 bg-white">
             <div class="card-body p-4">
-                <h4 class="fw-bold mb-4 text-dark">👤 Tambah Pengguna Baru</h4>
+                <h4 class="fw-bold mb-4 text-dark text-center">👤 Tambah Pengguna Baru</h4>
                 
                 <form action="<?= base_url('admin/pengguna/simpan') ?>" method="post">
                     <div class="mb-3">

@@ -17,7 +17,7 @@
 <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
     <div class="d-flex justify-content-between align-item-center mb-3">
         <h5 class="fw-bold mb-0">Jadwal Keberangkatan Aktif</h5>
-        <a href="<?= base_url('admin/jadwal/tambah'); ?>" class="btn btn-warning btn-sm fw-bold text-dark">➕ Buat Jadwal Baru</a> 
+        <a href="<?= base_url('admin/jadwal/tambah'); ?>" class="btn btn-warning btn-sm fw-bold text-dark"> Buat Jadwal Baru</a> 
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -37,7 +37,7 @@
                     <td><?= $no++; ?></td>
                     <td><?= esc($jd['nama_bus']); ?></td>
                     <td><strong><?= esc($jd['asal']); ?> ➔ <?= esc($jd['tujuan']); ?></strong></td>
-                    <td>⏰ <?= esc($jd['jam_keberangkatan']); ?></td>
+                    <td><?= esc($jd['jam_keberangkatan']); ?></td>
                     <td><strong class="text-success">Rp <?= number_format($jd['harga'], 0, ',', '.'); ?></strong></td>
                     <td>
                         <a href="<?= base_url('admin/jadwal/edit/' . $jd['id']); ?>" class="btn btn-sm btn-warning text-dark me-1">Edit</a>

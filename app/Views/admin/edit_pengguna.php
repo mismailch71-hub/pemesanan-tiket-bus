@@ -6,7 +6,7 @@
     <div class="col-md-6">
         <div class="card shadow border-0 rounded-3 bg-white">
             <div class="card-body p-4">
-                <h4 class="fw-bold mb-4 text-dark">📝 Edit Data Pengguna</h4>
+                <h4 class="fw-bold mb-4 text-dark text-center"> Edit Data Pengguna</h4>
                 
                 <form action="<?= base_url('admin/pengguna/update/' . $user['id']) ?>" method="post">
                     

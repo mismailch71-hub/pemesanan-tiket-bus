@@ -10,7 +10,7 @@
 <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
     <div classs="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-bold mb-0">Daftar Bus Aktif</h5>
-        <a href="<?= base_url('admin/bus/tambah'); ?>" class="btn btn-success btn-sm fw-bold">➕ Tambah Bus</a> 
+        <a href="<?= base_url('admin/bus/tambah'); ?>" class="btn btn-success btn-sm fw-bold"> Tambah Bus</a> 
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middl">

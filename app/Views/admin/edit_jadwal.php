@@ -6,12 +6,24 @@
     <div class="col-md-6">
         <div class="card shadow border-0 rounded-3 bg-white">
             <div class="card-body p-4">
-                <h4 class="fw-bold mb-4 text-dark">📝 Edit Jadwal Bus</h4>
+                <h4 class="fw-bold mb-4 text-dark text-center"> Edit Jadwal Bus</h4>
                 
                 <form action="<?= base_url('admin/jadwal/update/' . $jadwal['id']) ?>" method="post">
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-secondary">Nama Bus </label>
                         <input type="text" name="nama_bus" class="form-control" value="<?= $jadwal['nama_bus'] ?>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Pilih Bus</label>
+                        <select name="id_bus" class="form-select" required>
+                            <option value="" disabled>-- Pilih Bus --</option>
+                            <?php foreach ($daftar_bus as $bus): ?>
+                                <option value="<?= $bus['id'] ?>" <?= $bus['id'] == $jadwal['id_bus'] ? 'selected' : ''  ?>>
+                                    <?= esc($bus['nama_bus']) ?> (<?= esc($bus['kelas']) ?> - <?= $bus['kapasitas'] ?> kursi)
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="row mb-3">

@@ -152,7 +152,8 @@ class Admin extends BaseController
     public function tambah_jadwal()
     {
         $this->proteksiAdmin();
-        return view('admin/tambah_jadwal');
+        $data['daftar_bus'] = $this->busModel->findAll();
+        return view('admin/tambah_jadwal', $data);
     }
 
     public function simpan_jadwal()
@@ -164,6 +165,7 @@ class Admin extends BaseController
             'tujuan' => $this->request->getPost('tujuan'),
             'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
             'harga' => $this->request->getPost('harga'),
+            'id_bus' => $this->request->getPost('id_bus'),
         ]);
         return redirect()->to(base_url('admin/jadwal'))->with('sukses', 'Jadwal bus baru berhasil ditambahkan!');
     }
@@ -171,6 +173,7 @@ class Admin extends BaseController
     public function edit_jadwal(int $id) 
     {
         $this->proteksiAdmin();
+        $data['daftar_bus'] = $this->busModel->findAll();
         $data['jadwal'] = $this->jadwalModel->find($id);
         if(empty($data['jadwal'])) {
             return redirect()->to(base_url('admin/jadwal'))->with('error', 'Jadwal bus tidak ditemukan!');
@@ -187,6 +190,7 @@ class Admin extends BaseController
             'tujuan' => $this->request->getPost('tujuan'),
             'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
             'harga' => $this->request->getPost('harga'),
+            'id_bus' => $this->request->getPost('id_bus'),
         ]);
         return redirect()->to(base_url('admin/jadwal'))->with('sukses', 'Jadwal bus berhasil diperbarui!');
     }
