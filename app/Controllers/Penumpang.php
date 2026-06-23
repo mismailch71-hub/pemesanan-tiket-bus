@@ -36,12 +36,16 @@ class Penumpang extends BaseController
 
     public function kirim_ulasan()
     {
-        $ulasanModel = new UlasanModel();
-        $ulasanModel->simpan([
-            'id_user' => session()->get('id'),
-            'isi' => $this->request->getPost('isi'),
-            'rating' => $this->request->getPost('rating')
-        ]);
+        $ulasanModel = new \App\Models\UlasanModel();
+        $data = [
+            'username' => session()->get('username'),
+            'bintang' => $this->request->getPost('rating'),
+            'komentar' => $this->request->getPost('isi'),
+            'tanggal' =>date('Y-m-d H:i:s')
+        ];
+
+        $ulasanModel->insert($data);
+        
         return redirect()->to(base_url('penumpang/dashboard'))
                          ->with('success', "ulasan berhasil dikirim!");
     }
@@ -56,9 +60,9 @@ class Penumpang extends BaseController
     public function update_profil()
     {
         $userModel = new UserModel();
+        $id = session()->get('id');
+
         $dataUpdate = [
-            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'email' => $this->request->getPost('email'),
             'username' => $this->request->getPost('username'),
         ];
         if (!empty($this->request->getPost('password'))){
@@ -76,7 +80,7 @@ class Penumpang extends BaseController
         $jadwalModel = new JadwalModel();
         $keyword = $this->request->getGet('cari');
         $data['daftar_jadwal'] = $keyword ? $jadwalModel->like('tujuan', $keyword)
-                                                        ->orlike('asal', $keyword)
+                                                        ->orLike('asal', $keyword)
                                                         ->findAll() : $jadwalModel->findAll();
         $data['keyword'] = $keyword;
         return view('penumpang/jadwal', $data);
@@ -85,17 +89,74 @@ class Penumpang extends BaseController
     public function pesan_tiket()
     {
         if (!session()->has('id')) return redirect()->to(base_url('login'));
-        $transaksiModel = new TransaksiModel();
-        $jadwal = (new JadwalModel())->find($this->request->getPost('id_jadwal'));
-        $transaksiModel->insert([
-            'id_user' => session()->get('id'),
-            'id_jadwal' => $this->request->getPost('id_jadwal'),
-            'nomor_kursi' => $this->request->getPost('nomor_kursi'),
-            'total_harga' => $jadwal['harga'] ?? 0,
-            'status_pembayaran' => 'Pending',
-            'created_at' => date('Y-m-d H:i:s')
-        ]);
+
+        $transaksiModel = new \App\Models\TransaksiModel();
+        $jadwalModel = new \App\Models\JadwalModel();
+
+        $id_jadwal = $this->request->getPost('id_jadwal');
+        $daftar_kursi = $this->request->getPost('nomor_kursi');
+
+        if (empty($daftar_kursi)) {
+            return redirect()->back()->with('error', 'Silahkan pilih minimal satu kursi!');
+        }
+
+        if (count($daftar_kursi) > 6) {
+            return redirect()->back()->with('error', 'Maksimal pemesanan adalah 6 kursi!');
+        }
+
+        $jadwal = $jadwalModel->find($id_jadwal);
+        $harga_per_kursi = $jadwal['harga'] ?? 0;
+
+        foreach ($daftar_kursi as $kursi) {
+            $transaksiModel->insert([
+                'id_user' => session()->get('id'),
+                'id_jadwal' =>$id_jadwal,
+                'nomor_kursi' => $kursi,
+                'total_harga' => $harga_per_kursi,
+                'status_pembayaran' => 'Pending',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        }
+
         return redirect()->to(base_url('penumpang/riwayat'))->with('success', 'Tiket berhasil dipesan!');
+    }
+
+    public function pilih_kursi($id_jadwal)
+    {
+        $jadwalModel = new \App\Models\JadwalModel();
+        $transaksiModel = new \App\Models\TransaksiModel();
+
+        $jadwal = $jadwalModel->select('jadwal.*, bus.kapasitas')
+                              ->join('bus', 'bus.id = jadwal.id_bus', 'left')
+                              ->find((int)$id_jadwal);
+
+        if(!$jadwal) {
+            return redirect()->to(base_url('penumpang/jadwal'))->with('error', 'Jadwal tidak ditemukan!');
+        }
+
+        $kursi_terpesan = [];
+
+        $transaksi = $transaksiModel->where('id_jadwal', $id_jadwal)
+                                    ->findAll();
+        
+        if ($transaksi) {
+            $kursi_terpesan = array_column($transaksi, 'nomor_kursi');
+        }
+
+        $kapasitas = (int)($jadwal['kapasitas'] ?? 0);
+        $daftar_semua_kursi = [];
+        for ($i = 1; $i <= ($kapasitas / 2); $i++) {
+            $daftar_semua_kursi[] = 'A' . $i;
+            $daftar_semua_kursi[] = 'B' . $i;
+        }
+            
+        $data = [
+            'jadwal' => $jadwal,
+            'kursi_terpesan' => $kursi_terpesan,
+            'daftar_semua_kursi' => $daftar_semua_kursi,
+        ];
+
+        return view('penumpang/pilih_kursi', $data);
     }
 
     public function riwayat()

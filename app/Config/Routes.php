@@ -39,14 +39,21 @@ $routes->group('admin', function($routes) {
     $routes->get('hapus_pengumuman/(:num)', 'Admin::hapus_pengumuman/$1');
     $routes->get('keuangan', 'Admin::keuangan');
     $routes->get('ulasan', 'Admin::ulasan');
+    $routes->get('ulasan/hapus/(:num)', 'Admin::hapus_ulasan/$1');
+    $routes->get('transaksi', 'Admin::transaksi');
+    $routes->get('transaksi/konfirmasi/(:num)', 'Admin::update_status_keuangan/$1');
 });
 
 // C. GRUP PENUMPANG 
 $routes->group('penumpang', function($routes) {
     $routes->get('dashboard', 'Penumpang::dashboard');
+    $routes->get('edit_profil', 'Penumpang::edit_profil');
+    $routes->post('update_profil', 'Penumpang::update_profil');
+    $routes->get('pilih-kursi/(:num)', 'Penumpang::pilih_kursi/$1');
     $routes->get('jadwal', 'Penumpang::jadwal'); 
     $routes->get('riwayat', 'Penumpang::riwayat');
     $routes->post('pesan_tiket', 'Penumpang::pesan_tiket');  
+    $routes->post('kirim_ulasan', 'Penumpang::kirim_ulasan');
 });
 
 // D. GRUP PETUGAS
