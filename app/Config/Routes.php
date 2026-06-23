@@ -42,6 +42,10 @@ $routes->group('admin', function($routes) {
     $routes->get('ulasan/hapus/(:num)', 'Admin::hapus_ulasan/$1');
     $routes->get('transaksi', 'Admin::transaksi');
     $routes->get('transaksi/konfirmasi/(:num)', 'Admin::update_status_keuangan/$1');
+    $routes->get(
+    'update-status-keuangan/(:num)',
+    'Admin::update_status_keuangan/$1'
+    );
 });
 
 // C. GRUP PENUMPANG 
@@ -60,7 +64,7 @@ $routes->group('penumpang', function($routes) {
 $routes->group('petugas', function($routes) {
     $routes->get('dashboard', 'Petugas::dashboard');
     $routes->get('validasi', 'Petugas::validasi');
-    $routes->post('validasi/proses', 'Petugas::prosesValidasi');
+    $routes->post('validasi', 'Petugas::validasi');
     $routes->get('jadwal', 'Petugas::jadwal');
     $routes->get('manifes', 'Petugas::manifes');
     $routes->get('laporan', 'Petugas::laporan');
