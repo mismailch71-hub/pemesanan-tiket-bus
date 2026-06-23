@@ -1,80 +1,92 @@
 <div class="container my-5">
 
-    <div class="text-center mb-4">
-        <h2 class="fw-bold">📈 Laporan Operasional</h2>
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-primary">
+            📈 Laporan Operasional Terminal
+        </h2>
         <p class="text-muted">
-            Ringkasan aktivitas operasional terminal bus.
+            Ringkasan aktivitas operasional Smart Bus
         </p>
     </div>
 
-    <div class="row">
-        <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white shadow">
+    <div class="row g-4">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-lg bg-primary text-white">
                 <div class="card-body text-center">
                     <h6>Total Bus</h6>
-                    <h2><?= $totalBus ?></h2>
+                    <h1><?= $totalBus ?></h1>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white shadow">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-lg bg-success text-white">
                 <div class="card-body text-center">
                     <h6>Total Jadwal</h6>
-                    <h2><?= $totalJadwal ?></h2>
+                    <h1><?= $totalJadwal ?></h1>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-dark shadow">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-lg bg-warning">
                 <div class="card-body text-center">
                     <h6>Total Pesanan</h6>
-                    <h2><?= $totalPesanan ?></h2>
+                    <h1><?= $totalPesanan ?></h1>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white shadow">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-lg bg-info text-white">
                 <div class="card-body text-center">
                     <h6>Total Tiket</h6>
-                    <h2><?= $totalTiket ?></h2>
+                    <h1><?= $totalTiket ?></h1>
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="card shadow mt-4">
+    <div class="card border-0 shadow-lg mt-5">
         <div class="card-header bg-dark text-white">
-            Ringkasan Operasional
+            📊 Ringkasan Operasional
         </div>
 
         <div class="card-body">
 
-            <table class="table table-bordered">
+            <div class="row text-center">
 
-                <tr>
-                    <th>Total Bus Terdaftar</th>
-                    <td><?= $totalBus ?></td>
-                </tr>
+                <div class="col-md-3">
+                    <h5 class="text-primary">
+                        <?= $totalBus ?>
+                    </h5>
+                    <small>Bus Terdaftar</small>
+                </div>
 
-                <tr>
-                    <th>Total Jadwal Aktif</th>
-                    <td><?= $totalJadwal ?></td>
-                </tr>
+                <div class="col-md-3">
+                    <h5 class="text-success">
+                        <?= $totalJadwal ?>
+                    </h5>
+                    <small>Jadwal Aktif</small>
+                </div>
 
-                <tr>
-                    <th>Total Pemesanan</th>
-                    <td><?= $totalPesanan ?></td>
-                </tr>
+                <div class="col-md-3">
+                    <h5 class="text-warning">
+                        <?= $totalPesanan ?>
+                    </h5>
+                    <small>Total Pesanan</small>
+                </div>
 
-                <tr>
-                    <th>Total Tiket Terjual</th>
-                    <td><?= $totalTiket ?></td>
-                </tr>
+                <div class="col-md-3">
+                    <h5 class="text-info">
+                        <?= $totalTiket ?>
+                    </h5>
+                    <small>Tiket Terjual</small>
+                </div>
 
-            </table>
+            </div>
 
         </div>
     </div>
