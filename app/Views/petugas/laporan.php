@@ -55,7 +55,7 @@
 
     <div class="col-md-4">
         <div class="card border-0 shadow-sm bg-success text-white">
-            <div class="card-body text-cnter">
+            <div class="card-body text-center">
                 <h6>Tiket Lunas</h6>
                 <h2><?= $totalLunas ?></h2>
             </div>
