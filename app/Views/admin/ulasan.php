@@ -1,7 +1,7 @@
 <?= $this->extend('layout/sidebar'); ?>
 <?= $this->section('content'); ?>
 <div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">⭐ Ulasan & Feedback Penumpang</h3>
+    <h3 class="fw-bold text-dark mb-1">Ulasan & Feedback Penumpang</h3>
     <p class="text-secondary">Dengarkan kepuasan penumpang demi menjaga performa Smart Bus</p>
 </div>
 

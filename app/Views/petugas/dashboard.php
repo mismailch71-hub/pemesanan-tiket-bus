@@ -57,7 +57,6 @@
 </div>
 
 <div class="card border-0 shadow-sm mb-4">
-
     <div class="card-header bg-dark text-white text-center">
         <h5 class="mb-0">Validasi E-Ticket</h5>
     </div>

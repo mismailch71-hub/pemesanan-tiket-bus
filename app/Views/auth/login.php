@@ -12,7 +12,6 @@
     <div class="card border-0 shadow-lg rounded-4" style="width: 100%; max-width: 400px; overflow: hidden;">
         
         <div class="bg-warning text-dark text-center py-4 px-3">
-            <span style="font-size: 2.5rem;">🚌</span>
             <h4 class="fw-bold text-uppercase tracking-wide mb-1 mt-2">LOGIN</h4>
             <small class="fw-medium text-muted">SYSTEM SMART BUS</small>
         </div>
