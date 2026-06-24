@@ -130,7 +130,7 @@ class Penumpang extends BaseController
         $transaksiModel = new \App\Models\TransaksiModel();
 
         $jadwal = $jadwalModel->select('jadwal.*, bus.kapasitas')
-                              ->join('bus', 'bus.id = jadwal.id', 'left')
+                              ->join('bus', 'bus.id = jadwal.id_bus', 'left')
                               ->find((int)$id_jadwal);
 
         if(!$jadwal) {
