@@ -11,6 +11,7 @@
     
     <div class="row">
         <div class="col-md-5">
+            <img src="<?= base_url('assets/img/bus.png') ?>" class="card-img-top" alt="foto Bus" style="height: 180px; object-fit: cover; border-radius:0.5rem 0.5rem 0 0;">
             <div class="alert alert-info">
                 <h5 class="fw-bold">Detail Perjalanan</h5>
                 <p class="mb-1">Bus: <strong><?= esc($jadwal['nama_bus']) ?></strong></p>

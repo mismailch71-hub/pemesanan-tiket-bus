@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 22, 2026 at 05:15 AM
+-- Generation Time: Jun 24, 2026 at 06:07 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -56,18 +56,20 @@ CREATE TABLE `jadwal` (
   `tujuan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `jam_keberangkatan` time NOT NULL,
   `harga` int NOT NULL,
-  `total_kursi` int NOT NULL
+  `total_kursi` int NOT NULL,
+  `id_bus` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `jadwal`
 --
 
-INSERT INTO `jadwal` (`id`, `nama_bus`, `asal`, `tujuan`, `jam_keberangkatan`, `harga`, `total_kursi`) VALUES
-(1, 'Surya Kencana', 'Mataram', 'Sumbawa', '08:00:00', 150000, 12),
-(2, 'Titian Mas', 'Mataram', 'Bima', '15:30:00', 250000, 12),
-(3, 'surya', 'bima', 'mataram', '19:00:00', 300000, 0),
-(5, 'rinjani', 'sumbawa', 'mataram', '08:00:00', 200000, 0);
+INSERT INTO `jadwal` (`id`, `nama_bus`, `asal`, `tujuan`, `jam_keberangkatan`, `harga`, `total_kursi`, `id_bus`) VALUES
+(1, 'Surya Kencana', 'Mataram', 'Sumbawa', '08:00:00', 150000, 12, 2),
+(2, 'Titian Mas', 'Mataram', 'Bima', '15:30:00', 250000, 12, 3),
+(3, 'surya', 'bima', 'mataram', '19:00:00', 300000, 0, 2),
+(5, 'rinjani', 'sumbawa', 'mataram', '08:00:00', 200000, 0, 2),
+(6, 'Gunung Harta', 'bumi', 'mars', '12:00:00', 1000000, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -121,6 +123,14 @@ CREATE TABLE `pengumuman` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pengumuman`
+--
+
+INSERT INTO `pengumuman` (`id`, `judul`, `isi`, `status`, `created_at`) VALUES
+(2, 'mbg', 'Ya, program Makan Bergizi Gratis (MBG) masih berjalan, namun saat ini tengah dihentikan untuk sementara waktu khusus selama masa libur sekolah. ', 'aktif', '2026-06-22 05:55:07'),
+(3, 'kopdes', 'Pemerintah menargetkan pembangunan 30.000 Koperasi Desa/Kelurahan Merah Putih (Kopdes) beroperasi penuh pada 16 Agustus 2026. ', 'nonaktif', '2026-06-22 08:13:28');
+
 -- --------------------------------------------------------
 
 --
@@ -133,9 +143,42 @@ CREATE TABLE `transaksi` (
   `id_jadwal` int NOT NULL,
   `nomor_kursi` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `status_pembayaran` enum('Pending','Lunas','Dibatalkan') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'Pending',
+  `kode_tiket` varchar(20) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `bukti_bayar` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `total_harga` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id`, `id_user`, `id_jadwal`, `nomor_kursi`, `status_pembayaran`, `kode_tiket`, `bukti_bayar`, `total_harga`, `created_at`) VALUES
+(1, 7, 1, 'B4', 'Lunas', 'SB-LEGACY1', NULL, 150000, '2026-06-23 02:51:03'),
+(2, 7, 1, 'B4', 'Lunas', 'SB-LEGACY2', NULL, 150000, '2026-06-23 02:51:09'),
+(3, 7, 1, 'A4', 'Lunas', 'SB-LEGACY3', NULL, 150000, '2026-06-23 03:18:02'),
+(4, 7, 1, 'A4', 'Lunas', 'SB-LEGACY4', NULL, 150000, '2026-06-23 03:25:12'),
+(5, 7, 1, 'A8', 'Lunas', 'SB-LEGACY5', NULL, 150000, '2026-06-23 03:25:31'),
+(6, 7, 1, 'B8', 'Pending', 'SB-LEGACY6', NULL, 150000, '2026-06-23 13:21:31'),
+(7, 7, 1, 'A14', 'Pending', 'SB-LEGACY7', NULL, 150000, '2026-06-23 13:26:47'),
+(8, 7, 1, 'B12', 'Pending', 'SB-LEGACY8', NULL, 150000, '2026-06-23 22:49:58'),
+(9, 7, 1, 'A13', 'Pending', 'SB-LEGACY9', NULL, 150000, '2026-06-23 15:31:32'),
+(10, 7, 1, 'A17', 'Pending', 'SB-LEGACY10', NULL, 150000, '2026-06-23 15:31:32'),
+(11, 7, 1, 'A13', 'Pending', 'SB-LEGACY11', NULL, 150000, '2026-06-23 15:33:47'),
+(12, 7, 1, 'A17', 'Pending', 'SB-LEGACY12', NULL, 150000, '2026-06-23 15:33:47'),
+(13, 7, 1, 'B18', 'Pending', 'SB-LEGACY13', NULL, 150000, '2026-06-23 15:52:32'),
+(14, 7, 1, 'A18', 'Pending', 'SB-LEGACY14', NULL, 150000, '2026-06-23 15:52:51'),
+(15, 7, 1, 'A18', 'Pending', 'SB-LEGACY15', NULL, 150000, '2026-06-23 15:56:54'),
+(16, 7, 1, 'B17', 'Pending', 'SB-17563483', NULL, 150000, '2026-06-23 17:49:24'),
+(17, 7, 1, 'B19', 'Pending', 'SB-6970C330', NULL, 150000, '2026-06-23 20:45:43'),
+(18, 7, 2, 'A18', 'Lunas', 'SB-CD052DCC', NULL, 250000, '2026-06-23 20:50:43'),
+(19, 16, 3, 'B18', 'Lunas', 'SB-E676AD0F', NULL, 300000, '2026-06-23 21:22:31'),
+(20, 16, 6, 'A5', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
+(21, 16, 6, 'B7', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
+(22, 16, 6, 'A14', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
+(23, 16, 6, 'B17', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
+(24, 16, 6, 'B18', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
+(25, 16, 6, 'A23', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09');
 
 -- --------------------------------------------------------
 
@@ -150,6 +193,14 @@ CREATE TABLE `ulasan` (
   `komentar` text NOT NULL,
   `tanggal` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `ulasan`
+--
+
+INSERT INTO `ulasan` (`id`, `username`, `bintang`, `komentar`, `tanggal`) VALUES
+(1, 'mail', 5, 'soalnya ayamnya keras', '2026-06-22 19:15:02'),
+(2, 'mail', 2, 'ayamnya keras', '2026-06-22 19:15:24');
 
 -- --------------------------------------------------------
 
@@ -173,12 +224,15 @@ INSERT INTO `users` (`id`, `username`, `password`, `role`) VALUES
 (2, 'admin1', 'admin123', 'admin'),
 (3, 'mail admin', 'mail12345', 'admin'),
 (7, 'mail', '123', 'penumpang'),
-(9, 'ganteng banget', 'ganteng12', 'petugas'),
+(9, 'petugas1', 'petugas123', 'petugas'),
 (10, 'ismail', '123', 'penumpang'),
 (11, '777', 'dor123', 'petugas'),
 (12, 'mail', '123', 'penumpang'),
 (13, 'mail', '123', 'penumpang'),
-(14, 'inaz', '777', 'penumpang');
+(14, 'inaz', '777', 'penumpang'),
+(15, 'dani', '888', 'penumpang'),
+(16, 'rafi', '222', 'penumpang'),
+(17, 'karmila', '777', 'penumpang');
 
 --
 -- Indexes for dumped tables
@@ -252,7 +306,7 @@ ALTER TABLE `bus`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `pemesanan`
@@ -270,25 +324,25 @@ ALTER TABLE `pemesanan_tiket`
 -- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `ulasan`
 --
 ALTER TABLE `ulasan`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
