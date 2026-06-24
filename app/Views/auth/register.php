@@ -15,7 +15,6 @@
     <div class="card border-0 shadow-sm rounded-4" style="width: 100%; max-width: 420px; overflow: hidden;">
         
         <div class="bg-dark text-white text-center py-4 px-3">
-            <span style="font-size: 2.5rem;">🚌</span>
             <h4 class="fw-bold text-uppercase tracking-wide mb-1 mt-2">DAFTAR AKUN</h4>
         </div>
 
