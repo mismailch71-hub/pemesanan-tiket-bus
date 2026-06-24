@@ -9,7 +9,7 @@
 <?php endif; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="fw-bold">Halo, <?= esc(session()->get('username')); ?>! 👋</h3>
+    <h3 class="fw-bold">Halo, <?= esc(session()->get('username')); ?>!</h3>
     <a href="<?= base_url('penumpang/edit_profil') ?>" class="btn btn-primary shadow-sm">
         <i class="bi bi-search"></i> Edit Profil
     </a>

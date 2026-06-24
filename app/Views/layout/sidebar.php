@@ -24,7 +24,7 @@
     <div class="main-content">
         <div class="top-navbar d-flex justify-content-between align-items-center shadow-sm">
             <span>SISTEM INFORMASI OPERASIONAL TIKET SMART BUS MATARAM</span>
-            <span class="badge bg-success rounded-pill px-3 py-1">Status: Online 🟢</span>
+            <span class="badge bg-success rounded-pill px-3 py-1">Status: Online</span>
         </div>
 
         <div class="p-4">

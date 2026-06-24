@@ -56,7 +56,7 @@
 <div class="card border-0 shadow-sm mb-4">
 
     <div class="card-header bg-dark text-white">
-        <h5 class="mb-0">📈 Ringkasan Operasional</h5>
+        <h5 class="mb-0">Ringkasan Operasional</h5>
     </div>
 
     <div class="card-body">
@@ -106,7 +106,7 @@
 <div class="card border-0 shadow-sm">
 
     <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">📝 Kesimpulan Laporan</h5>
+        <h5 class="mb-0">Kesimpulan Laporan</h5>
     </div>
 
     <div class="card-body">

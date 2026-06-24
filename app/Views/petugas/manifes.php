@@ -3,11 +3,7 @@
 <?= $this->section('content'); ?>
 
 <div class="mb-4">
-<<<<<<< HEAD
-    <h3 class="fw-bold text-dark"> Manifes Penumpang</h3>
-=======
-    <h3 class="fw-bold text-dark">📋 Data Penumpang</h3>
->>>>>>> f4702931eb4b808cd911c0c3af4a8f838cee1b32
+    <h3 class="fw-bold text-dark">Data Penumpang</h3>
     <p class="text-secondary">
         Daftar penumpang berdasarkan jadwal keberangkatan.
     </p>

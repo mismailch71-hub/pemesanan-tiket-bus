@@ -45,7 +45,7 @@
 <div class="card border-0 shadow-sm mb-4">
 
     <div class="card-header bg-dark text-white">
-        <h5 class="mb-0">🎫 Validasi E-Ticket</h5>
+        <h5 class="mb-0">Validasi E-Ticket</h5>
     </div>
 
     <div class="card-body">
@@ -78,7 +78,7 @@
 <div class="card border-0 shadow-sm">
 
     <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">🚌 Manifes Keberangkatan Bus Terdekat</h5>
+        <h5 class="mb-0">Manifes Keberangkatan Bus Terdekat</h5>
     </div>
 
     <div class="card-body">

@@ -3,7 +3,7 @@
 <?= $this->section('content'); ?>
 
 <div class="mb-4">
-    <h3 class="fw-bold text-dark">🚌 Jadwal Keberangkatan</h3>
+    <h3 class="fw-bold text-dark">Jadwal Keberangkatan</h3>
     <p class="text-secondary">
         Daftar seluruh jadwal keberangkatan bus.
     </p>
