@@ -277,7 +277,6 @@ class Admin extends BaseController
     {
         $this->proteksiAdmin();
 
-        // 🔥 TAMBAHKAN INI DI AWAL FUNGSI UNTUK MENCEGAH ERROR
         if (empty($this->transaksiModel)) {
             $this->transaksiModel = new \App\Models\TransaksiModel();
         }
@@ -308,16 +307,35 @@ class Admin extends BaseController
     }
 
     public function update_status_keuangan($id)
-    {
-        $this->proteksiAdmin();
-        $transaksiModel = new \App\Models\TransaksiModel();
+{
+    $this->proteksiAdmin();
+    $db = \Config\Database::connect();
 
-        $transaksiModel->update($id, [
-            'status_pembayaran' => "Lunas"
+    $db->table('transaksi')
+        ->where('id', $id)
+        ->update([
+            'status_pembayaran' => 'Lunas'
         ]);
 
-        return redirect()->to(base_url('admin/transaksi'))->with('sukses', 'Status pembayaran berhasil diubah ke Lunas!');
+    $transaksi = $db->table('transaksi')
+        ->where('id', $id)
+        ->get()
+        ->getRowArray();
+
+    if ($transaksi) {
+
+        $db->table('pemesanan_tiket')
+            ->where('id_user', $transaksi['id_user'])
+            ->where('id_jadwal', $transaksi['id_jadwal'])
+            ->where('nomor_kursi', $transaksi['nomor_kursi'])
+            ->update([
+                'status_pembayaran' => 'Lunas'
+            ]);
     }
+
+    return redirect()->back()
+        ->with('sukses', 'Pembayaran berhasil dikonfirmasi');
+}
 
     public function ulasan()
     {

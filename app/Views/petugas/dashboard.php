@@ -2,14 +2,6 @@
 
 <?= $this->section('content'); ?>
 
-<div class="mb-4">
-    <h3 class="fw-bold text-dark">📊 Dashboard Petugas</h3>
-    <p class="text-secondary">
-        Monitoring operasional terminal dan validasi tiket penumpang.
-    </p>
-</div>
-
-<!-- Statistik -->
 <div class="row g-3 mb-4">
 
     <div class="col-md-3">
@@ -50,7 +42,6 @@
 
 </div>
 
-<!-- Form Validasi -->
 <div class="card border-0 shadow-sm mb-4">
 
     <div class="card-header bg-dark text-white">
@@ -65,6 +56,7 @@
 
                 <input
                     type="text"
+                    name="kode_booking"
                     class="form-control"
                     placeholder="Masukkan Kode Booking..."
                     required>
@@ -83,7 +75,6 @@
 
 </div>
 
-<!-- Jadwal Terdekat -->
 <div class="card border-0 shadow-sm">
 
     <div class="card-header bg-primary text-white">
@@ -108,37 +99,45 @@
 
                 <tbody>
 
+                <?php if (!empty($jadwal)) : ?>
+                    <?php foreach ($jadwal as $j) : ?>
+
                     <tr>
-                        <td>Surya Kencana (Eksekutif)</td>
-                        <td>08:00 WITA</td>
-                        <td>Mataram ➜ Denpasar</td>
+
+                        <td><?= $j['nama_bus']; ?></td>
+
+                        <td><?= $j['jam_keberangkatan']; ?></td>
+
+                        <td>
+                            <?= $j['asal']; ?> ➜ <?= $j['tujuan']; ?>
+                        </td>
+
                         <td>
                             <span class="badge bg-success">
-                                28 / 32 Kursi
+                                <?= $j['total_kursi']; ?> Kursi
                             </span>
                         </td>
+
                         <td>
-                            <button class="btn btn-sm btn-outline-primary">
-                                Lihat Manifest
-                            </button>
+                            <a href="<?= base_url('petugas/manifes'); ?>"
+                               class="btn btn-sm btn-outline-primary">
+                                Lihat Manifes
+                            </a>
+                        </td>
+
+                    </tr>
+
+                    <?php endforeach; ?>
+
+                <?php else : ?>
+
+                    <tr>
+                        <td colspan="5" class="text-center">
+                            Tidak ada jadwal keberangkatan
                         </td>
                     </tr>
 
-                    <tr>
-                        <td>Pahala Kencana</td>
-                        <td>09:30 WITA</td>
-                        <td>Mataram ➜ Surabaya</td>
-                        <td>
-                            <span class="badge bg-warning text-dark">
-                                20 / 32 Kursi
-                            </span>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-primary">
-                                Lihat Manifest
-                            </button>
-                        </td>
-                    </tr>
+                <?php endif; ?>
 
                 </tbody>
 

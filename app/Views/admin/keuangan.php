@@ -1,7 +1,7 @@
 <?= $this->extend('layout/sidebar'); ?>
 <?= $this->section('content'); ?>
 <div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">📊 Rekapitulasi Laporan Keuangan</h3>
+    <h3 class="fw-bold text-dark mb-1">Rekapitulasi Laporan Keuangan</h3>
     <p class="text-secondary">Pantau total omset penjualan tiket masuk Smart Bus</p>
 </div>
 
@@ -27,22 +27,51 @@
                     <th>Status Pembayaran</th>
                 </tr>
             </thead>
+
             <tbody>
-                <?php $no = 1; foreach($transaksi as $t): ?>
+
+            <?php if (!empty($transaksi)) : ?>
+
+                <?php $no = 1; ?>
+                <?php foreach ($transaksi as $t) : ?>
+
                 <tr>
                     <td><?= $no++; ?></td>
-                    <td><strong>User #<?= esc($t['id_user']); ?></strong></td>
-                    <td><span class="badge bg-light text-dark border">Kursi <?= esc($t['nomor_kursi'] ?? '-'); ?></span></td>
-                    <td class="text-success fw-bold">Rp 150.000</td>
-                    <td><span class="badge bg-success"><?= esc($t['status_pembayaran'] ?? 'Lunas'); ?></span></td>
+                    <td>User #<?= $t['id_user']; ?></td>
+                    <td><?= $t['nomor_kursi']; ?></td>
+                    <td>Rp <?= number_format($t['total_harga'], 0, ',', '.'); ?></td>
+
+                    <td>
+                        <?php if ($t['status_pembayaran'] == 'Pending') : ?>
+
+                            <a href="<?= base_url('admin/transaksi/konfirmasi/'.$t['id']); ?>"
+                            class="btn btn-success btn-sm">
+                                Konfirmasi
+                            </a>
+
+                        <?php else : ?>
+
+                            <span class="badge bg-success">
+                                Lunas
+                            </span>
+
+                        <?php endif; ?>
+                    </td>
+
                 </tr>
+
                 <?php endforeach; ?>
-                
-                <?php if(empty($transaksi)): ?>
+
+            <?php else : ?>
+
                 <tr>
-                    <td colspan="5" class="text-center text-muted py-4">Belum ada riwayat transaksi masuk.</td>
+                    <td colspan="5" class="text-center text-muted py-4">
+                        Belum ada riwayat transaksi masuk.
+                    </td>
                 </tr>
-                <?php endif; ?>
+
+            <?php endif; ?>
+
             </tbody>
         </table>
     </div>

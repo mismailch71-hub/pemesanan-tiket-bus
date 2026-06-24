@@ -3,7 +3,11 @@
 <?= $this->section('content'); ?>
 
 <div class="mb-4">
+<<<<<<< HEAD
     <h3 class="fw-bold text-dark"> Manifes Penumpang</h3>
+=======
+    <h3 class="fw-bold text-dark">📋 Data Penumpang</h3>
+>>>>>>> f4702931eb4b808cd911c0c3af4a8f838cee1b32
     <p class="text-secondary">
         Daftar penumpang berdasarkan jadwal keberangkatan.
     </p>
@@ -48,33 +52,42 @@
                     </tr>
                 </thead>
 
-                <tbody>
+            <tbody>
+
+            <?php if (!empty($penumpang)) : ?>
+                <?php $no = 1; ?>
+
+                <?php foreach ($penumpang as $p) : ?>
 
                     <tr>
-                        <td>1</td>
-                        <td>Ahmad</td>
-                        <td>Surya Kencana</td>
-                        <td>A01</td>
+                        <td><?= $no++; ?></td>
+
+                        <td><?= $p['nama_penumpang']; ?></td>
+
+                        <td><?= $p['nama_bus']; ?></td>
+
+                        <td><?= $p['nomor_kursi']; ?></td>
+
                         <td>
                             <span class="badge bg-success">
-                                Lunas
+                                <?= $p['status_pembayaran']; ?>
                             </span>
                         </td>
                     </tr>
 
-                    <tr>
-                        <td>2</td>
-                        <td>Siti</td>
-                        <td>Surya Kencana</td>
-                        <td>A02</td>
-                        <td>
-                            <span class="badge bg-success">
-                                Lunas
-                            </span>
-                        </td>
-                    </tr>
+                <?php endforeach; ?>
 
-                </tbody>
+            <?php else : ?>
+
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Tidak ada data penumpang
+                    </td>
+                </tr>
+
+            <?php endif; ?>
+
+                    </tbody>
 
             </table>
 
