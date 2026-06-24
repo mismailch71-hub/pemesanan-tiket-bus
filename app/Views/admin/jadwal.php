@@ -24,7 +24,7 @@
             <thead class="table-light">
                 <tr>
                     <th>No</th>
-                    <th>Armada</th>
+                    <th>Bus</th>
                     <th>Rute Perjalanan</th>
                     <th>Jam Berangkat</th>
                     <th>Harga Tiket</th>

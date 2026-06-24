@@ -3,7 +3,7 @@
 
 <?= $this->section('content'); ?>
 <div class="mb-4">
-    <h3 class="fw-bold text-dark mb-4">Manajemen Smart Bus</h3>
+    <h3 class="fw-bold text-dark mb-1">Manajemen Data Bus</h3>
     <p class="text-secondary">Kelola daftar bus, tipe kelas, dan total kapasitas kursi</p>
 </div>
 

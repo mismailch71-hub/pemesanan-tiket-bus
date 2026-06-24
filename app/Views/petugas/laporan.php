@@ -4,7 +4,7 @@
 
 <div class="mb-4">
     <h3 class="fw-bold text-dark">
-        📊 Laporan Operasional Terminal
+         Laporan Operasional Terminal
     </h3>
     <p class="text-secondary">
         Ringkasan data operasional sistem pemesanan tiket bus.

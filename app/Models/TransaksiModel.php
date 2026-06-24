@@ -6,9 +6,17 @@ use CodeIgniter\Model;
 
 class TransaksiModel extends Model
 {
-    protected $table      = 'transaksi'; // Pastikan nama tabel di database sesuai
+    protected $table      = 'transaksi'; 
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_user', 'id_jadwal', 'nomor_kursi', 'status_pembayaran', 'total_harga'];
+    protected $allowedFields = [
+        'id_user', 
+        'id_jadwal', 
+        'nomor_kursi', 
+        'status_pembayaran', 
+        'total_harga',
+        'created_at',
+        'kode_tiket'
+    ];
 
     public function getTransaksiLengkap()
     {

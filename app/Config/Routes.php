@@ -54,6 +54,9 @@ $routes->group('penumpang', function($routes) {
     $routes->get('riwayat', 'Penumpang::riwayat');
     $routes->post('pesan_tiket', 'Penumpang::pesan_tiket');  
     $routes->post('kirim_ulasan', 'Penumpang::kirim_ulasan');
+    $routes->get('etiket/(:any)', 'Penumpang::etiket/$1');
+    $routes->get('detail_pesanan/(:any)', 'Penumpang::detail_pesanan/$1');
+    $routes->post('bayar_sekarang/(:any)', 'Penumpang::bayar_sekarang/$1');
 });
 
 // D. GRUP PETUGAS

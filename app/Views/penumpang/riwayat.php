@@ -22,21 +22,23 @@
             <?php if(!empty($transaksi)): ?>
                 <?php foreach($transaksi as $t): ?>
                 <tr>
-                    <td>Bus ID: <?= esc($t['id_jadwal']) ?></td>
+                    <td><?= esc($t['asal'] ?? ('Bus ID: ' . $t['id_jadwal'])) ?> <?= isset($t['tujuan']) ? '➔' . esc($t['tujuan']) : '' ?></td>
                     <td><?= esc($t['nomor_kursi']) ?></td>
                     <td>Rp <?= number_format($t['total_harga'] ?? 0, 0, ',', '.') ?></td>
                     <td>
                         <?php if($t['status_pembayaran'] == 'Lunas'): ?>
                             <span class="badge bg-success">Lunas</span>
+                        <?php elseif($t['status_pembayaran'] == 'Menunggu Verifikasi'): ?>
+                            <span class="badge bg-info text-dark">Menunggu Verifikasi</span>
                         <?php else: ?>
-                            <span class="badge bg-warning">Pending</span>
+                            <span class="badge bg-warning text-dark">Pending</span>
                         <?php endif; ?>
                     </td>
                     <td class="text-center">
                         <?php if($t['status_pembayaran'] == 'Lunas'): ?>
-                            <a href="<?= base_url('penumpang/tiket_digital/'.$t['id']) ?>" class="btn btn-sm btn-info">Lihat E-Tiket</a>
+                            <a href="<?= base_url('penumpang/etiket/'.$t['kode_tiket']) ?>" class="btn btn-sm btn-success">Lihat E-Tiket</a>
                         <?php else: ?>
-                            <span class="text-muted small">Menunggu Bayar</span>
+                            <a href="<?= base_url('penumpang/detail_pesanan/'.$t['kode_tiket']) ?>" class="btn btn-sm btn-warning">Bayar Sekarang</a>
                         <?php endif; ?>
                     </td>
                 </tr>
