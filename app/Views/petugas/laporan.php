@@ -4,14 +4,13 @@
 
 <div class="mb-4">
     <h3 class="fw-bold text-dark">
-         Laporan Operasional Terminal
+        Laporan Operasional Terminal
     </h3>
     <p class="text-secondary">
         Ringkasan data operasional sistem pemesanan tiket bus.
     </p>
 </div>
 
-<!-- Statistik -->
 <div class="row g-4 mb-4">
 
     <div class="col-md-3">
@@ -52,19 +51,46 @@
 
 </div>
 
-<!-- Tabel Ringkasan -->
+<div class="row g-4 mb-4">
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm bg-success text-white">
+            <div class="card-body text-cnter">
+                <h6>Tiket Lunas</h6>
+                <h2><?= $totalLunas ?></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm bg-warning">
+            <div class="card-body text-center">
+                <h6>Tiket Pending</h6>
+                <h2><?= $totalPending ?></h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm bg-dark text-white">
+            <div class="card-body text-center">
+                <h6>Total Pendapatan</h6>
+                <h2>Rp <?= number_format($totalPendapatan, 0, ',', '.') ?></h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <div class="card border-0 shadow-sm mb-4">
 
-    <div class="card-header bg-dark text-white">
-        <h5 class="mb-0">📈 Ringkasan Operasional</h5>
+    <div class="card-header bg-dark text-white text-center">
+        <h5 class="mb-0">Ringkasan Operasional</h5>
     </div>
 
     <div class="card-body">
-
         <div class="table-responsive">
-
             <table class="table table-bordered table-hover">
-
                 <thead class="table-light">
                     <tr>
                         <th>Keterangan</th>
@@ -92,27 +118,35 @@
                         <td>Total Tiket Terjual</td>
                         <td><?= $totalTiket ?></td>
                     </tr>
+
+                    <tr>
+                        <td>Tiket Lunas</td>
+                        <td><?= $totalLunas ?></td>
+                    </tr>
+
+                    <tr>
+                        <td>Tiket Pending</td>
+                        <td><?= $totalPending ?></td>
+                    </tr>
+
+                    <tr>
+                        <td>Total Pendapatan</td>
+                        <td>Rp <?= number_format($totalPendapatan, 0, ',', '.') ?></td>
+                    </tr>
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </div>
 
-<!-- Kesimpulan -->
 <div class="card border-0 shadow-sm">
-
     <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">📝 Kesimpulan Laporan</h5>
+        <h5 class="mb-0">Kesimpulan Laporan</h5>
     </div>
 
     <div class="card-body">
 
         <ul class="list-group list-group-flush">
-
             <li class="list-group-item">
                 Total bus yang terdaftar sebanyak
                 <strong><?= $totalBus ?></strong> unit.
@@ -125,18 +159,21 @@
 
             <li class="list-group-item">
                 Total transaksi pemesanan sebanyak
-                <strong><?= $totalPesanan ?></strong> pesanan.
+                <strong><?= $totalPesanan ?></strong> pesanan, dengan
+                <strong><?= $totalTiket ?></strong> tiket terjual.
             </li>
 
             <li class="list-group-item">
-                Total tiket yang telah diterbitkan sebanyak
-                <strong><?= $totalTiket ?></strong> tiket.
+                Dari jumlah tersebut, <strong><?= $totalLunas ?></strong> tiket sudah lunas dan
+                <strong><?= $totalPending ?></strong> tiket masih menunggu pembayaran.
             </li>
 
+            <li class="list-group-item">
+                Total pendapatan dari tiket yang sudah lunas sebesar
+                <strong>Rp <?= number_format($totalPendapatan, 0, ',', '.') ?></strong>
+            </li>
         </ul>
-
     </div>
-
 </div>
 
 <?= $this->endSection(); ?>

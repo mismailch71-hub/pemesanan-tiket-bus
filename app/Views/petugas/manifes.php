@@ -3,11 +3,7 @@
 <?= $this->section('content'); ?>
 
 <div class="mb-4">
-<<<<<<< HEAD
-    <h3 class="fw-bold text-dark"> Manifes Penumpang</h3>
-=======
-    <h3 class="fw-bold text-dark">📋 Data Penumpang</h3>
->>>>>>> f4702931eb4b808cd911c0c3af4a8f838cee1b32
+    <h3 class="fw-bold text-dark">Manifes Penumpang</h3>
     <p class="text-secondary">
         Daftar penumpang berdasarkan jadwal keberangkatan.
     </p>
@@ -20,28 +16,8 @@
     </div>
 
     <div class="card-body">
-
-        <div class="row mb-3">
-
-            <div class="col-md-4">
-                <select class="form-select">
-                    <option>Semua Jadwal</option>
-                </select>
-            </div>
-
-            <div class="col-md-4">
-                <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Cari Penumpang...">
-            </div>
-
-        </div>
-
         <div class="table-responsive">
-
             <table class="table table-hover align-middle">
-
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
@@ -51,50 +27,33 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-
-            <tbody>
-
-            <?php if (!empty($penumpang)) : ?>
-                <?php $no = 1; ?>
-
-                <?php foreach ($penumpang as $p) : ?>
-
-                    <tr>
-                        <td><?= $no++; ?></td>
-
-                        <td><?= $p['nama_penumpang']; ?></td>
-
-                        <td><?= $p['nama_bus']; ?></td>
-
-                        <td><?= $p['nomor_kursi']; ?></td>
-
-                        <td>
-                            <span class="badge bg-success">
-                                <?= $p['status_pembayaran']; ?>
-                            </span>
-                        </td>
-                    </tr>
-
-                <?php endforeach; ?>
-
-            <?php else : ?>
-
-                <tr>
-                    <td colspan="5" class="text-center">
-                        Tidak ada data penumpang
-                    </td>
-                </tr>
-
-            <?php endif; ?>
-
-                    </tbody>
-
+                <tbody>
+                    <?php if (!empty($manifes)) : ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($manifes as $p) : ?>
+                            <tr>
+                                <td><?= $no++; ?></td>
+                                <td><?= esc($p['username']); ?></td>
+                                <td><?= esc($p['nama_bus']); ?></td>
+                                <td><?= esc($p['nomor_kursi']); ?></td>
+                                <td>
+                                    <span class="badge bg-success">
+                                        <?= esc($p['status_pembayaran']); ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                Tidak ada data penumpang
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
             </table>
-
         </div>
-
     </div>
-
 </div>
 
 <?= $this->endSection(); ?>

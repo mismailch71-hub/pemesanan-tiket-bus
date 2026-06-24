@@ -2,6 +2,20 @@
 
 <?= $this->section('content'); ?>
 
+<?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= esc(session()->getFlashdata('error')) ?>
+        <button type="button" class="btn btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
+<?php if(session()->getFlashdata('success')): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <?= esc(session()->getFlashdata('success')) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+<?php endif; ?>
+
 <div class="row g-3 mb-4">
 
     <div class="col-md-3">
@@ -44,13 +58,14 @@
 
 <div class="card border-0 shadow-sm mb-4">
 
-    <div class="card-header bg-dark text-white">
-        <h5 class="mb-0">🎫 Validasi E-Ticket</h5>
+    <div class="card-header bg-dark text-white text-center">
+        <h5 class="mb-0">Validasi E-Ticket</h5>
     </div>
 
     <div class="card-body">
 
-        <form action="#" method="POST">
+        <form action="<?= base_url('petugas/validasi_tiket') ?>" method="post">
+            <?= csrf_field() ?>
 
             <div class="input-group">
 
@@ -77,8 +92,8 @@
 
 <div class="card border-0 shadow-sm">
 
-    <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">🚌 Manifes Keberangkatan Bus Terdekat</h5>
+    <div class="card-header bg-primary text-white text-center">
+        <h5 class="mb-0">Manifes Keberangkatan Bus Terdekat</h5>
     </div>
 
     <div class="card-body">
@@ -104,22 +119,22 @@
 
                     <tr>
 
-                        <td><?= $j['nama_bus']; ?></td>
+                        <td><?= esc($j['nama_bus']) ?></td>
 
-                        <td><?= $j['jam_keberangkatan']; ?></td>
+                        <td><?= date('H:i', strtotime($j['jam_keberangkatan'])) ?> WITA</td>
 
                         <td>
-                            <?= $j['asal']; ?> ➜ <?= $j['tujuan']; ?>
+                            <?= esc($j['asal']) ?> ➜ <?= esc($j['tujuan']) ?>
                         </td>
 
                         <td>
                             <span class="badge bg-success">
-                                <?= $j['total_kursi']; ?> Kursi
+                                <?= $j['total_kursi'] ?? '-' ?> Kursi
                             </span>
                         </td>
 
                         <td>
-                            <a href="<?= base_url('petugas/manifes'); ?>"
+                            <a href="<?= base_url('petugas/manifes/' . $j['id']) ?>"
                                class="btn btn-sm btn-outline-primary">
                                 Lihat Manifes
                             </a>

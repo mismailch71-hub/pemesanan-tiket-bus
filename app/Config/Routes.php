@@ -67,8 +67,9 @@ $routes->group('penumpang', function($routes) {
 $routes->group('petugas', function($routes) {
     $routes->get('dashboard', 'Petugas::dashboard');
     $routes->get('validasi', 'Petugas::validasi');
-    $routes->post('validasi', 'Petugas::validasi');
+    $routes->post('validasi_tiket', 'Petugas::validasi_tiket');
     $routes->get('jadwal', 'Petugas::jadwal');
+    $routes->get('manifes/(:num)', 'Petugas::manifes/$1');
     $routes->get('manifes', 'Petugas::manifes');
     $routes->get('laporan', 'Petugas::laporan');
 });

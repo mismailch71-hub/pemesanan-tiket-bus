@@ -1,80 +1,157 @@
 <?php
 
 namespace App\Controllers;
-use App\Controllers\BaseController;
+
 class Petugas extends BaseController
 {
+    //1. Dashboard Petugas
     public function dashboard()
     {
-       $db = \Config\Database::connect();
+        if(session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
 
-    $data['totalBus'] =
-        $db->table('bus')->countAllResults();
+        $db = \Config\Database::connect();
 
-    $data['totalJadwal'] =
-        $db->table('jadwal')->countAllResults();
+        $data['totalBus'] = $db->table('bus')->countAllResults();
+        $data['totalJadwal'] = $db->table('jadwal')->countAllResults();
 
-    $data['totalPesanan'] =
-        $db->table('pemesanan')->countAllResults();
+        $data['totalPesanan'] = $db->table('transaksi')
+                                   ->select('kode_tiket')
+                                   ->distinct()
+                                   ->countAllResults();
 
-    $data['totalTiket'] =
-        $db->table('pemesanan_tiket')->countAllResults();
+        $data['totalTiket'] = $db->table('transaksi')
+                                 ->countAllResults();
 
-    $data['totalLunas'] =
-        $db->table('pemesanan_tiket')
-            ->where('status_pembayaran', 'Lunas')
-            ->countAllResults();
+        $data['totalLunas'] = $db->table('transaksi')
+                                 ->where('status_pembayaran', 'Lunas')
+                                 ->countAllResults();
 
-    $data['jadwal'] = $db->table('jadwal')
-        ->join('bus', 'bus.id = jadwal.id')
-        ->get()
-        ->getResultArray();
+        $data['jadwal'] = $db->table('jadwal')
+                             ->select('jadwal.*, bus.kapasitas')
+                             ->join('bus', 'bus.id = jadwal.id_bus', 'left')
+                             ->get()
+                             ->getResultArray();
 
-    return view('petugas/dashboard', $data);
+        return view('petugas/dashboard', $data);
     }
+
     public function validasi()
     {
+        if (session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
         return view('petugas/validasi');
     }
+
+    public function validasi_tiket()
+    {
+        if (session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
+
+        $kode_tiket = $this->request->getPost('kode_booking');
+        $db = \Config\Database::connect();
+
+        $rows = $db->table('transaksi')
+                   ->select('transaksi.*, users.username, jadwal.nama_bus, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')
+                   ->join('users', 'users.id = transaksi.id_user')
+                   ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                   ->where('transaksi.kode_tiket', $kode_tiket)
+                   ->get()
+                   ->getResultArray();
+
+        if (empty($rows)) {
+            return redirect()->to(base_url('petugas/validasi'))->with('error', 'Kode booking tidak ditemukan!');
+        }
+
+        if ($rows[0]['status_pembayaran'] !== 'Lunas') {
+            return redirect()->to(base_url('petugas/validasi'))->with('error', 'Tiket belum lunas, penumpang belum bisa naik!');
+        }
+
+        $data['tiket'] = $rows[0];
+        $data['daftar_kursi'] = array_column($rows, 'nomor_kursi');
+
+        return view('petugas/validasi', $data);
+    }
+
     public function jadwal()
     {
+        if (session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
+
         $db = \Config\Database::connect();
-        $data['jadwal'] =
-        $db->table('jadwal')
-           ->get()
-           ->getResultArray();
+        $daftar_jadwal = $db->table('jadwal')
+                             ->select('jadwal.*, bus.kapasitas')
+                             ->join('bus', 'bus.id = jadwal.id_bus', 'left')
+                             ->get()
+                             ->getResultArray();
+
+        foreach ($daftar_jadwal as &$j) {
+            $j['kursi_terisi'] = $db->table('transaksi')
+                                    ->where('id_jadwal', $j['id'])
+                                    ->countAllResults();
+            $j['kursi_sisa'] = ($j['kapasitas'] ?? 0) - $j['kursi_terisi'];
+        }
+
+        $data['jadwal'] = $daftar_jadwal;
         return view('petugas/jadwal', $data);
     }
-   public function manifes()
-{
-    $db = \Config\Database::connect();
-    $data['manifes'] = $db->table('pemesanan_tiket pt')
-        ->select('
-            pt.id,
-            u.username,
-            b.nama_bus,
-            pt.nomor_kursi,
-            pt.status_pembayaran
-        ')
-        ->join('users u', 'u.id = pt.id_user')
-        ->join('jadwal j', 'j.id = pt.id_jadwal')
-        ->join('bus b', 'b.id = j.id')
-        ->get()
-        ->getResultArray();
 
-    return view('petugas/manifes', $data);
-}
+    public function manifes($id_jadwal = null) 
+    {
+        if (session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('transaksi')
+                      ->select('transaksi.id, users.username, jadwal.nama_bus, transaksi.nomor_kursi, transaksi.status_pembayaran')
+                      ->join('users', 'users.id = transaksi.id_user')
+                      ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
+                      ->where('transaksi.status_pembayaran', 'Lunas');
+
+        if ($id_jadwal !== null) {
+            $builder->where('transaksi.id_jadwal', $id_jadwal);
+        }
+
+        $data['manifes'] = $builder->get()->getResultArray();
+
+        return view('petugas/manifes', $data);
+    }
+
     public function laporan()
     {
+        if (session()->get('role') !== 'petugas') {
+            return redirect()->to(base_url('login'));
+        }
+
         $db = \Config\Database::connect();
-        $data['totalBus'] =
-            $db->table('bus')->countAllResults();
-        $data['totalJadwal'] =
-            $db->table('jadwal')->countAllResults();
-        $data['totalPesanan'] =
-            $db->table('pemesanan')->countAllResults();
-        $data['totalTiket'] =
-            $db->table('pemesanan_tiket')->countAllResults();
+        $data['totalBus'] = $db->table('bus')->countAllResults();
+        $data['totalJadwal'] = $db->table('jadwal')->countAllResults();
+        $data['totalPesanan'] = $db->table('transaksi')
+                                  ->select('kode_tiket')
+                                  ->distinct()
+                                  ->countAllResults();
+        $data['totalTiket'] = $db->table('transaksi')->countAllResults();
+
+        $data['totalLunas'] = $db->table('transaksi')
+                                 ->where('status_pembayaran', 'Lunas')
+                                 ->countAllResults();
+
+        $data['totalPending'] = $db->table('transaksi')
+                                   ->where('status_pembayaran', 'Pending')
+                                   ->countAllResults();
+
+        $data['totalPendapatan'] = $db->table('transaksi')
+                                      ->selectSum('total_harga')
+                                      ->where('status_pembayaran', 'Lunas')
+                                      ->get()
+                                      ->getRow()
+                                      ->total_harga ?? 0;
+        
         return view('petugas/laporan', $data);
     }
 }
