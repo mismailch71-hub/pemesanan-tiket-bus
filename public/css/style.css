@@ -1,4 +1,3 @@
-/* public/css/style.css */
 
 body {
     background-color: #f8f6f9;
@@ -13,10 +12,9 @@ footer {
     background-color: #ffffff;
 }
 
-/* ================= CONFIGURATION SIDEBAR (KIRI) ================= */
 .sidebar {
     min-height: 100vh;
-    background-color: #343a40; /* Abu-abu gelap khas AdminLTE/Bootstrap */
+    background-color: #343a40; 
     width: 240px;
     position: fixed;
     top: 0;
@@ -27,7 +25,6 @@ footer {
 }
 
 .sidebar .nav-link {
-    /* Menggunakan !important agar warna dasar kustom tidak ditimpa oleh kelas bawaan Bootstrap */
     color: #c2c7d0 !important; 
     padding: 14px 20px;
     font-weight: 500;
@@ -39,22 +36,19 @@ footer {
     transition: background-color 0.2s, color 0.2s;
 }
 
-/* Perbaikan Typo: Mengubah '.avtive' menjadi '.active' agar menu penanda halaman menyala */
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
     background-color: #495057 !important;
     color: #ffffff !important;
 }
 
-/* ================= KONTEN UTAMA (KANAN) ================= */
 .main-content {
-    margin-left: 240px; /* Jarak pas berukuran 240px agar tidak tertutup sidebar yang bertipe fixed */
+    margin-left: 240px; 
     min-height: 100vh;
     width: calc(100% - 240px);
     transition: all 0.3s;
 }
 
-/* Top Navbar Atas Berwarna Biru */
 .top-navbar {
     background-color: #2b669a;
     color: white;
@@ -63,7 +57,6 @@ footer {
     box-shadow: 0 2px 4px rgba(0,0,0,0.08);
 }
 
-/* Utilitas Tambahan untuk Opasitas Teks di Dalam Kartu Statistik */
 .text-white-50 {
     color: rgba(255, 255, 255, 0.6) !important;
 }

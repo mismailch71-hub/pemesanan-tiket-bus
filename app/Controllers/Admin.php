@@ -37,20 +37,20 @@ class Admin extends BaseController
 
     public function dashboard()
     {
-        // 1. Load Model
+        
         $busModel = new \App\Models\BusModel();
         $transaksiModel = new \App\Models\TransaksiModel();
         $userModel = new \App\Models\UserModel();
         $ulasanModel = new \App\Models\UlasanModel();
 
-        // 2. Data Statistik (Kartu)
+        
         $data['total_bus'] = $busModel->countAllResults();
         $data['total_transaksi'] = $transaksiModel->countAllResults();
         $data['total_pemasukan'] = $transaksiModel->where('status_pembayaran', 'Lunas')
                                               ->selectSum('total_harga')
                                               ->get()->getRow()->total_harga ?? 0;
 
-        // 3. Logika Dinamis Grafik (Pendapatan per Bulan)
+        
         $query = $transaksiModel->select("DATE_FORMAT(created_at, '%b') as bulan, SUM(total_harga) as total")
                             ->where('status_pembayaran', 'Lunas')
                             ->groupBy("bulan")
@@ -60,7 +60,7 @@ class Admin extends BaseController
         $labels = [];
         $data_grafik = [];
 
-        // Jika data ada, masukkan ke array; jika kosong, isi array kosong agar tidak error
+        
         if (!empty($query)) {
             foreach ($query as $row) {
                 $labels[] = $row['bulan'];
@@ -71,7 +71,7 @@ class Admin extends BaseController
         $data['grafik_label'] = $labels;
         $data['grafik_data'] = $data_grafik;
 
-        // 4. Ambil 5 Transaksi terbaru dengan Join
+        
         $data['transaksi_terbaru'] = $transaksiModel->select('transaksi.*, users.username, jadwal.asal, jadwal.tujuan')
                                                 ->join('users', 'users.id = transaksi.id_user')
                                                 ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
@@ -81,7 +81,7 @@ class Admin extends BaseController
         
         $data['total_ulasan'] = $ulasanModel->countAllResults();
 
-        // 5. Return ke View
+        
         return view('admin/dashboard', $data);
     }
 
@@ -163,6 +163,7 @@ class Admin extends BaseController
             'nama_bus' => $this->request->getPost('nama_bus'),
             'asal' => $this->request->getPost('asal'),
             'tujuan' => $this->request->getPost('tujuan'),
+            'tanggal_keberangkatan' => $this->request->getPost('tanggal_keberangkatan'),
             'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
             'harga' => $this->request->getPost('harga'),
             'id_bus' => $this->request->getPost('id_bus'),
@@ -188,6 +189,7 @@ class Admin extends BaseController
             'nama_bus' => $this->request->getPost('nama_bus'),
             'asal' => $this->request->getPost('asal'),
             'tujuan' => $this->request->getPost('tujuan'),
+            'tanggal_keberangkatan' => $this->request->getPost('tanggal_keberangkatan'),
             'jam_keberangkatan' => $this->request->getPost('jam_keberangkatan'),
             'harga' => $this->request->getPost('harga'),
             'id_bus' => $this->request->getPost('id_bus'),
@@ -220,7 +222,7 @@ class Admin extends BaseController
     {
         $this->proteksiAdmin();
         
-        // Pastikan busModel sudah didefinisikan di __construct() atau load di sini
+        
         $busModel = new \App\Models\BusModel(); 
         
         $busModel->save([
@@ -267,7 +269,7 @@ class Admin extends BaseController
         $this->proteksiAdmin();
         $busModel = new \App\Models\BusModel();
         
-        // Melakukan penghapusan berdasarkan ID
+        
         $busModel->delete($id);
         
         return redirect()->to(base_url('admin/bus'))->with('sukses', 'Data armada berhasil dihapus!');
@@ -281,15 +283,15 @@ class Admin extends BaseController
             $this->transaksiModel = new \App\Models\TransaksiModel();
         }
     
-    $data['transaksi'] = $this->transaksiModel->findAll();
+        $data['transaksi'] = $this->transaksiModel->findAll();
         
-        $total = 0;
-        foreach ($data['transaksi'] as $t) {
-            if (isset($t['status_pembayaran']) && $t['status_pembayaran'] === 'Lunas') {
-                $total += 150000; 
-            }
-        }
-        $data['total_pendapatan'] = $total;
+        $data['total_pendapatan'] = $this->transaksiModel
+                                         ->where('status_pembayaran', 'Lunas')
+                                         ->selectSum('total_harga')
+                                         ->get()
+                                         ->getRow()
+                                         ->total_harga ?? 0;
+        
 
         return view('admin/keuangan', $data);
     }
@@ -307,35 +309,35 @@ class Admin extends BaseController
     }
 
     public function update_status_keuangan($id)
-{
-    $this->proteksiAdmin();
-    $db = \Config\Database::connect();
+    {
+        $this->proteksiAdmin();
+        $db = \Config\Database::connect();
 
-    $db->table('transaksi')
-        ->where('id', $id)
-        ->update([
+        $db->table('transaksi')
+           ->where('id', $id)
+           ->update([
             'status_pembayaran' => 'Lunas'
-        ]);
+           ]);
 
-    $transaksi = $db->table('transaksi')
-        ->where('id', $id)
-        ->get()
-        ->getRowArray();
+        $transaksi = $db->table('transaksi')
+                        ->where('id', $id)
+                        ->get()
+                        ->getRowArray();
 
-    if ($transaksi) {
+        if ($transaksi) {
 
-        $db->table('pemesanan_tiket')
-            ->where('id_user', $transaksi['id_user'])
-            ->where('id_jadwal', $transaksi['id_jadwal'])
-            ->where('nomor_kursi', $transaksi['nomor_kursi'])
-            ->update([
+            $db->table('pemesanan_tiket')
+               ->where('id_user', $transaksi['id_user'])
+               ->where('id_jadwal', $transaksi['id_jadwal'])
+               ->where('nomor_kursi', $transaksi['nomor_kursi'])
+               ->update([
                 'status_pembayaran' => 'Lunas'
-            ]);
-    }
+                ]);
+        }
 
-    return redirect()->back()
-        ->with('sukses', 'Pembayaran berhasil dikonfirmasi');
-}
+        return redirect()->back()
+            ->with('sukses', 'Pembayaran berhasil dikonfirmasi');
+    }
 
     public function ulasan()
     {

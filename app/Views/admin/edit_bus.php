@@ -4,10 +4,10 @@
     <div class="col-md-6">
         <div class="card shadow border-0 rounded-3 bg-white">
             <div class="card-body p-4">
-                <h4 class="fw-bold mb-4 text-dark text-center"> Edit Data Bus</h4>
+                <h4 class="fw-bold mb-4 text-dark text-center"> Edit Data Armada Bus</h4>
                 <form action="<?= base_url('admin/bus/update/' . $bus['id']) ?>" method="post">
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Nama Bus</label>
+                        <label class="form-label small fw-bold text-secondary">Nama Armada Bus</label>
                         <input type="text" name="nama_bus" class="form-control" value="<?= esc($bus['nama_bus']) ?>" required>
                     </div>
                     <div class="mb-3">

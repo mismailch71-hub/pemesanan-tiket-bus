@@ -11,10 +11,10 @@
     <table class="table table-bordered table-striped bg-white shadow-sm align-middle">
         <thead class="table-primary">
             <tr>
-                <th>Jadwal</th>
-                <th>Kursi</th>
-                <th>Total Harga</th>
-                <th>Status</th>
+                <th class="text-center">Jadwal</th>
+                <th class="text-center">Kursi</th>
+                <th class="text-center">Total Harga</th>
+                <th class="text-center">Status</th>
                 <th class="text-center">Aksi</th>
             </tr>
         </thead>
@@ -22,10 +22,10 @@
             <?php if(!empty($transaksi)): ?>
                 <?php foreach($transaksi as $t): ?>
                 <tr>
-                    <td><?= esc($t['asal'] ?? ('Bus ID: ' . $t['id_jadwal'])) ?> <?= isset($t['tujuan']) ? '➔' . esc($t['tujuan']) : '' ?></td>
-                    <td><?= esc($t['nomor_kursi']) ?></td>
-                    <td>Rp <?= number_format($t['total_harga'] ?? 0, 0, ',', '.') ?></td>
-                    <td>
+                    <td class="text-center"><?= esc($t['asal'] ?? ('Bus ID: ' . $t['id_jadwal'])) ?> <?= isset($t['tujuan']) ? '➔' . esc($t['tujuan']) : '' ?></td>
+                    <td class="text-center"><?= esc($t['nomor_kursi']) ?></td>
+                    <td class="text-center">Rp <?= number_format($t['total_harga'] ?? 0, 0, ',', '.') ?></td>
+                    <td class="text-center">
                         <?php if($t['status_pembayaran'] == 'Lunas'): ?>
                             <span class="badge bg-success">Lunas</span>
                         <?php elseif($t['status_pembayaran'] == 'Menunggu Verifikasi'): ?>

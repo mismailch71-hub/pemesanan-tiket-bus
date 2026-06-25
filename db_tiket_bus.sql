@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 24, 2026 at 06:48 AM
+-- Generation Time: Jun 25, 2026 at 04:23 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -40,7 +40,7 @@ CREATE TABLE `bus` (
 --
 
 INSERT INTO `bus` (`id`, `nama_bus`, `nomor_plat`, `kelas`, `kapasitas`) VALUES
-(2, 'SmartBus Bisnis 02', 'DR 8888 BK', 'Executive', 38),
+(2, 'SmartBus Bisnis ', 'DR 8888 BK', 'Bisnis', 38),
 (3, 'Smartes ekonomi', 'TRX 888 AC', 'Ekonomi', 50);
 
 -- --------------------------------------------------------
@@ -55,6 +55,7 @@ CREATE TABLE `jadwal` (
   `asal` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tujuan` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `jam_keberangkatan` time NOT NULL,
+  `tanggal_keberangkatan` date DEFAULT NULL,
   `harga` int NOT NULL,
   `total_kursi` int NOT NULL,
   `id_bus` int NOT NULL
@@ -64,12 +65,14 @@ CREATE TABLE `jadwal` (
 -- Dumping data for table `jadwal`
 --
 
-INSERT INTO `jadwal` (`id`, `nama_bus`, `asal`, `tujuan`, `jam_keberangkatan`, `harga`, `total_kursi`, `id_bus`) VALUES
-(1, 'Surya Kencana', 'Mataram', 'Sumbawa', '08:00:00', 150000, 12, 2),
-(2, 'Titian Mas', 'Mataram', 'Bima', '15:30:00', 250000, 12, 3),
-(3, 'surya', 'bima', 'mataram', '19:00:00', 300000, 0, 2),
-(5, 'rinjani', 'sumbawa', 'mataram', '08:00:00', 200000, 0, 2),
-(6, 'Gunung Harta', 'bumi', 'mars', '12:00:00', 1000000, 0, 3);
+INSERT INTO `jadwal` (`id`, `nama_bus`, `asal`, `tujuan`, `jam_keberangkatan`, `tanggal_keberangkatan`, `harga`, `total_kursi`, `id_bus`) VALUES
+(1, 'Surya Kencana', 'Mataram', 'Sumbawa', '08:00:00', '2026-06-25', 150000, 12, 2),
+(2, 'Titian Mas', 'Mataram', 'Bima', '15:30:00', '2026-06-25', 250000, 12, 3),
+(3, 'surya', 'bima', 'mataram', '19:00:00', '2026-06-25', 300000, 0, 2),
+(5, 'rinjani', 'sumbawa', 'mataram', '08:00:00', '2026-06-25', 200000, 0, 2),
+(6, 'Gunung Harta', 'bumi', 'mars', '12:00:00', '2026-06-25', 1000000, 0, 3),
+(7, 'merpati', 'sumbawa', 'mataram', '21:00:00', '2026-06-25', 150000, 0, 0),
+(8, 'ngawi', 'nagwi', 'depok', '09:48:00', '2026-06-25', 100000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -128,8 +131,10 @@ CREATE TABLE `pengumuman` (
 --
 
 INSERT INTO `pengumuman` (`id`, `judul`, `isi`, `status`, `created_at`) VALUES
-(2, 'mbg', 'Ya, program Makan Bergizi Gratis (MBG) masih berjalan, namun saat ini tengah dihentikan untuk sementara waktu khusus selama masa libur sekolah. ', 'aktif', '2026-06-22 05:55:07'),
-(3, 'kopdes', 'Pemerintah menargetkan pembangunan 30.000 Koperasi Desa/Kelurahan Merah Putih (Kopdes) beroperasi penuh pada 16 Agustus 2026. ', 'nonaktif', '2026-06-22 08:13:28');
+(2, 'mbg', 'Ya, program Makan Bergizi Gratis (MBG) masih berjalan, namun saat ini tengah dihentikan untuk sementara waktu khusus selama masa libur sekolah. ', 'nonaktif', '2026-06-22 05:55:07'),
+(3, 'kopdes', 'Pemerintah menargetkan pembangunan 30.000 Koperasi Desa/Kelurahan Merah Putih (Kopdes) beroperasi penuh pada 16 Agustus 2026. ', 'nonaktif', '2026-06-22 08:13:28'),
+(4, 'puja kerang ajaib', 'Siapa sih yang nggak kenal dengan serial kartun SpongeBob Squarepants? Ya, serial anak-anak ini sudah lama malang melintang di layar kaca. Kendati demikian, sampai saat ini, kartun yang satu ini masih eksis menghibur anak-anak Indonesia lho. Serial dengan karakter spons kuning yang tinggal di bawah laut ini memang memiliki banyak penggemar di Indonesia. Nggak cuma dari kalangan anak-anak, tetapi juga banyak orang dewasa yang tetap menyukai serial kartun yang satu ini.Kartun\r\n\r\nNah, kalau kamu adalah penggemar SpongeBob pasti udah nggak asing lagi dengan berbagai karakter yang sering muncul di episodenya. Misalnya saja Patrick si bintang laut, atau Squidward hingga Tuan Krabs. Nah, ketiganya ini memang menjadi karakter utama dalam serial kartun SpongeBob.', 'aktif', '2026-06-24 14:28:46'),
+(5, 'pemerintahan', 'Pemerintah saat ini memfokuskan berbagai kebijakan pada ketahanan energi, ekonomi, dan pendidikan. Fokus utamanya mencakup stabilisasi harga BBM dan LPG, percepatan pembangunan sekolah, serta peningkatan kesejahteraan guru. Di tengah dinamika tersebut, berbagai elemen masyarakat juga terus mengawal program-program strategis seperti Makan Bergizi Gratis (MBG).', 'aktif', '2026-06-24 14:34:34');
 
 -- --------------------------------------------------------
 
@@ -159,10 +164,10 @@ INSERT INTO `transaksi` (`id`, `id_user`, `id_jadwal`, `nomor_kursi`, `status_pe
 (3, 7, 1, 'A4', 'Lunas', 'SB-LEGACY3', NULL, 150000, '2026-06-23 03:18:02'),
 (4, 7, 1, 'A4', 'Lunas', 'SB-LEGACY4', NULL, 150000, '2026-06-23 03:25:12'),
 (5, 7, 1, 'A8', 'Lunas', 'SB-LEGACY5', NULL, 150000, '2026-06-23 03:25:31'),
-(6, 7, 1, 'B8', 'Pending', 'SB-LEGACY6', NULL, 150000, '2026-06-23 13:21:31'),
-(7, 7, 1, 'A14', 'Pending', 'SB-LEGACY7', NULL, 150000, '2026-06-23 13:26:47'),
-(8, 7, 1, 'B12', 'Pending', 'SB-LEGACY8', NULL, 150000, '2026-06-23 22:49:58'),
-(9, 7, 1, 'A13', 'Pending', 'SB-LEGACY9', NULL, 150000, '2026-06-23 15:31:32'),
+(6, 7, 1, 'B8', 'Lunas', 'SB-LEGACY6', NULL, 150000, '2026-06-23 13:21:31'),
+(7, 7, 1, 'A14', 'Lunas', 'SB-LEGACY7', NULL, 150000, '2026-06-23 13:26:47'),
+(8, 7, 1, 'B12', 'Lunas', 'SB-LEGACY8', NULL, 150000, '2026-06-23 22:49:58'),
+(9, 7, 1, 'A13', 'Lunas', 'SB-LEGACY9', NULL, 150000, '2026-06-23 15:31:32'),
 (10, 7, 1, 'A17', 'Pending', 'SB-LEGACY10', NULL, 150000, '2026-06-23 15:31:32'),
 (11, 7, 1, 'A13', 'Pending', 'SB-LEGACY11', NULL, 150000, '2026-06-23 15:33:47'),
 (12, 7, 1, 'A17', 'Pending', 'SB-LEGACY12', NULL, 150000, '2026-06-23 15:33:47'),
@@ -179,7 +184,9 @@ INSERT INTO `transaksi` (`id`, `id_user`, `id_jadwal`, `nomor_kursi`, `status_pe
 (23, 16, 6, 'B17', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
 (24, 16, 6, 'B18', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
 (25, 16, 6, 'A23', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
-(26, 17, 3, 'B12', 'Pending', 'SB-1ACA0994', NULL, 300000, '2026-06-23 22:45:28');
+(26, 17, 3, 'B12', 'Pending', 'SB-1ACA0994', NULL, 300000, '2026-06-23 22:45:28'),
+(27, 7, 6, 'B11', 'Lunas', 'SB-41DE8B9F', NULL, 1000000, '2026-06-24 05:52:20'),
+(28, 7, 1, 'A12', 'Lunas', 'SB-4162BD0D', NULL, 150000, '2026-06-24 20:05:38');
 
 -- --------------------------------------------------------
 
@@ -307,7 +314,7 @@ ALTER TABLE `bus`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `pemesanan`
@@ -325,13 +332,13 @@ ALTER TABLE `pemesanan_tiket`
 -- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `ulasan`

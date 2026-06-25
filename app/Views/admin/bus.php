@@ -3,21 +3,21 @@
 
 <?= $this->section('content'); ?>
 <div class="mb-4">
-    <h3 class="fw-bold text-dark mb-1">Manajemen Data Bus</h3>
+    <h3 class="fw-bold text-dark mb-1">Manajemen Data Armada Bus</h3>
     <p class="text-secondary">Kelola daftar bus, tipe kelas, dan total kapasitas kursi</p>
 </div>
 
 <div class="card border-0 shadow-sm rounded-3 p-4 bg-white">
     <div classs="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Daftar Bus Aktif</h5>
-        <a href="<?= base_url('admin/bus/tambah'); ?>" class="btn btn-success btn-sm fw-bold"> Tambah Bus</a> 
+        <h5 class="fw-bold mb-0">Daftar Armada Bus Aktif</h5>
+        <a href="<?= base_url('admin/bus/tambah'); ?>" class="btn btn-success btn-sm fw-bold"> Tambah Armada Bus</a> 
     </div>
     <div class="table-responsive">
         <table class="table table-hover align-middl">
             <thead class="table-light">
                 <tr>
                     <th>No</th>
-                    <th>Nama Bus</th>
+                    <th>Nama Armada Bus</th>
                     <th>Nomor Plat</th>
                     <th>Kelas</th>
                     <th>kapasitas</th>

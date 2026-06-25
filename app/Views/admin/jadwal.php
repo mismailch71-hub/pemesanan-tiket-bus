@@ -26,6 +26,7 @@
                     <th>No</th>
                     <th>Bus</th>
                     <th>Rute Perjalanan</th>
+                    <th>Tanggal</th>
                     <th>Jam Berangkat</th>
                     <th>Harga Tiket</th>
                     <th>Aksi</th>
@@ -37,6 +38,7 @@
                     <td><?= $no++; ?></td>
                     <td><?= esc($jd['nama_bus']); ?></td>
                     <td><strong><?= esc($jd['asal']); ?> ➔ <?= esc($jd['tujuan']); ?></strong></td>
+                    <td><?= !empty($jd['tanggal_keberangkatan']) ? date('d M Y', strtotime($jd['tanggal_keberangkatan'])) : '-'?></td>
                     <td><?= esc($jd['jam_keberangkatan']); ?></td>
                     <td><strong class="text-success">Rp <?= number_format($jd['harga'], 0, ',', '.'); ?></strong></td>
                     <td>
@@ -47,7 +49,7 @@
                 <?php endforeach; ?>
                 <?php if(empty($daftar_jadwal)): ?>
                 <tr>
-                    <td colspan="6" class="text-center text-muted py-3">Belum ada data jadwal bus.</td>
+                    <td colspan="7" class="text-center text-muted py-3">Belum ada data jadwal bus.</td>
                 </tr>
                 <?php endif; ?>
             </tbody>

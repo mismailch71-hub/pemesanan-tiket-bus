@@ -30,7 +30,8 @@
                 <p class="fw-bold mb-0"><?= esc($tiket['nama_bus']) ?></p>
             </div>
             <div class="col-6">
-                <small class="text-muted">Jam Berangkat</small>
+                <small class="text-muted">Jam dan Berangkat</small>
+                <p class="fw-bold mb-0"><?= date('d M Y', strtotime($tiket['tanggal_keberangkatan'])) ?></p>
                 <p class="fw-bold mb-0"><?= date('H:i', strtotime($tiket['jam_keberangkatan'])) ?> WITA</p>
             </div>
         </div>

@@ -14,15 +14,15 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Pilih Bus</label>
+                        <label class="form-label small fw-bold text-secondary">Pilih Armada Bus</label>
                         <select name="id_bus" class="form-select" required>
-                            <option value="" disabled selected>-- Pilih Bus --</option>
+                            <option value="" disabled selected>-- Pilih Armada Bus --</option>
                             <?php foreach ($daftar_bus as $bus): ?>
                                 <option value="<?= $bus['id'] ?>">
                                     <?= esc($bus['nama_bus']) ?> (<?= esc($bus['kelas']) ?> - <?= $bus['kapasitas'] ?>kursi)
                                 </option>
                             <?php endforeach; ?>
-                        </label>
+                        </select>
                     </div>
 
                     <div class="row mb-3">
@@ -30,10 +30,16 @@
                             <label class="form-label small fw-bold text-secondary">Kota Asal</label>
                             <input type="text" name="asal" class="form-control" placeholder="Contoh: Mataram" required>
                         </div>
+
                         <div class="col-md-6">
                             <label class="form-label small fw-bold text-secondary">Kota Tujuan</label>
                             <input type="text" name="tujuan" class="form-control" placeholder="Contoh: Sumbawa" required>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Tanggal Keberangkatan</label>
+                        <input type="date" name="tanggal_keberangkatan" class="form-control" required>
                     </div>
 
                     <div class="mb-3">

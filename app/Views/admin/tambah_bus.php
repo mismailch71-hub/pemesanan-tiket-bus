@@ -4,13 +4,13 @@
     <div class="col-md-6">
         <div class="card shadow border-0 rounded-3 bg-white">
             <div class="card-body py-4">
-                <h4 class="fw-bold mb-4 text-dark text-center"> Tambah Bus Baru</h4>
+                <h4 class="fw-bold mb-4 text-dark text-center"> Tambah Armada Bus Baru</h4>
 
                 <form action="<?= base_url('admin/bus/simpan') ?>" method="post">
                     <?= csrf_field(); ?>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Nama Bus</label>
+                        <label class="form-label small fw-bold text-secondary">Nama Armada Bus</label>
                         <input type="text" name="nama_bus" class="form-control" placeholder="Contoh: SmartesBus Executive 01" required>
                     </div>
 

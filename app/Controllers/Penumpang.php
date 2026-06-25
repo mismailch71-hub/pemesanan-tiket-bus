@@ -178,7 +178,7 @@ class Penumpang extends BaseController
         if (!session()->has('id')) return redirect()->to(base_url('login'));
 
         $transaksiModel = new \App\Models\TransaksiModel();
-        $rows = $transaksiModel->select('transaksi.*, jadwal.nama_bus, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')
+        $rows = $transaksiModel->select('transaksi.*, jadwal.nama_bus, jadwal.asal, jadwal.tujuan, jadwal.tanggal_keberangkatan, jadwal.jam_keberangkatan')
                                         ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
                                         ->where('transaksi.kode_tiket', $kode_tiket)
                                         ->where('transaksi.id_user', session()->get('id'))
@@ -201,7 +201,7 @@ class Penumpang extends BaseController
         if (!session()->has('id')) return redirect()->to(base_url('login'));
 
         $transaksiModel = new \App\Models\TransaksiModel();
-        $rows = $transaksiModel->select('transaksi.*, jadwal.nama_bus, jadwal.asal, jadwal.tujuan, jadwal.jam_keberangkatan')
+        $rows = $transaksiModel->select('transaksi.*, jadwal.nama_bus, jadwal.asal, jadwal.tujuan, jadwal.tanggal_keberangkatan, jadwal.jam_keberangkatan')
                                ->join('jadwal', 'jadwal.id = transaksi.id_jadwal')
                                ->where('transaksi.kode_tiket', $kode_tiket)
                                ->where('transaksi.id_user', session()->get('id'))

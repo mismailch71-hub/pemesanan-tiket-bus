@@ -26,7 +26,7 @@
             <?php foreach ($pengumuman_list as $p): ?>
                 <div class="card mb-3 shadow-sm border-0">
                     <div class="card-body">
-                        <h6 class="fw-bold text-primary"><?= esc($p['judul']) ?></h6>
+                        <h6 class="fw-bold text-primary text-center"><?= esc($p['judul']) ?></h6>
                         <p class="small mb-0"><?= esc($p['isi']) ?></p>
                         <small class="text-muted"><?= $p['created_at'] ?></small>
                     </div>
@@ -53,7 +53,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Isi Ulasan</label>
-                        <textarea name="isi" class="form-control" orws="3" required placeholder="Tuliskan pengalaman Anda..."></textarea>
+                        <textarea name="isi" class="form-control" rows="3" required placeholder="Tuliskan pengalaman Anda..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Kirim Ulasan</button>
                 </form>

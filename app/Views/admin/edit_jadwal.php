@@ -15,9 +15,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label small fw-bold text-secondary">Pilih Bus</label>
+                        <label class="form-label small fw-bold text-secondary">Pilih Armada Bus</label>
                         <select name="id_bus" class="form-select" required>
-                            <option value="" disabled>-- Pilih Bus --</option>
+                            <option value="" disabled>-- Pilih Armada Bus --</option>
                             <?php foreach ($daftar_bus as $bus): ?>
                                 <option value="<?= $bus['id'] ?>" <?= $bus['id'] == $jadwal['id_bus'] ? 'selected' : ''  ?>>
                                     <?= esc($bus['nama_bus']) ?> (<?= esc($bus['kelas']) ?> - <?= $bus['kapasitas'] ?> kursi)
@@ -35,6 +35,11 @@
                             <label class="form-label small fw-bold text-secondary">Kota Tujuan</label>
                             <input type="text" name="tujuan" class="form-control" value="<?= $jadwal['tujuan'] ?>" required>
                         </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-secondary">Tanggal Keberangkatan</label>
+                        <input type="date" name="tanggal_keberangkatan" class="form-control" value="<?= $jadwal['tanggal_keberangkatan'] ?? '' ?>" required>
                     </div>
 
                     <div class="mb-3">

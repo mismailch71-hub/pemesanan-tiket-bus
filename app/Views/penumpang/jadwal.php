@@ -18,11 +18,11 @@
     <table class="table table-bordered table-striped bg-white shadow-sm align-middle">
         <thead class="table-primary">
             <tr>
-                <th>Nama Bus</th>
-                <th>Keberangkatan</th>
-                <th>Tujuan</th>
-                <th>Jam Berangkat</th>
-                <th>Harga Tiket</th>
+                <th class="text-center">Nama Bus</th>
+                <th class="text-center">Keberangkatan</th>
+                <th class="text-center">Tujuan</th>
+                <th class="text-center">Tanggal dan jam Berangkat</th>
+                <th class="text-center">Harga Tiket</th>
                 <th class="text-center">Aksi</th>
             </tr>
         </thead>
@@ -30,11 +30,11 @@
             <?php if(!empty($daftar_jadwal)): ?>
                 <?php foreach($daftar_jadwal as $j): ?>
                 <tr>
-                    <td><strong><?= esc($j['nama_bus']) ?></strong></td>
-                    <td><?= esc($j['asal']) ?></td>
-                    <td><?= esc($j['tujuan']) ?></td>
-                    <td><?= date('H:i', strtotime($j['jam_keberangkatan'])) ?> WITA</td>
-                    <td class="text-success fw-bold">Rp <?= number_format($j['harga'], 0, ',', '.') ?></td>
+                    <td class="text-center"><strong><?= esc($j['nama_bus']) ?></strong></td>
+                    <td class="text-center"><?= esc($j['asal']) ?></td>
+                    <td class="text-center"><?= esc($j['tujuan']) ?></td>
+                    <td class="text-center"><?= date('d M Y', strtotime($j['tanggal_keberangkatan'])) ?>, <?= date('H:i', strtotime($j['jam_keberangkatan'])) ?> WITA</td>
+                    <td class="text-success fw-bold text-center">Rp <?= number_format($j['harga'], 0, ',', '.') ?></td>
                     <td class="text-center">
                         <a href="<?= base_url('penumpang/pilih-kursi/'.$j['id']) ?>" class="btn btn-sm btn-success px-3">Pesan Kursi</a>
                     </td>

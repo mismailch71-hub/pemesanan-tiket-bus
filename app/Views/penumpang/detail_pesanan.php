@@ -27,7 +27,8 @@
                 <p class="fw-bold mb-0"><?= esc($pesanan['nama_bus']) ?></p>
             </div>
             <div class="col-6">
-                <small class="text-muted">Jam Berangkat</small>
+                <small class="text-muted">Tanggal dan Jam Berangkat</small>
+                <p class="fw-bold mb-0"><?= date('d M Y', strtotime($pesanan['tanggal_keberangkatan'])) ?></p>
                 <p class="fw-bold mb-0"><?= date('H:i', strtotime($pesanan['jam_keberangkatan'])) ?> Wita</p>
             </div>
         </div>
