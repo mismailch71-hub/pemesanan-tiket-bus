@@ -1,3 +1,13 @@
+<?php
+/** @var int $totalBus */
+/** @var int $totalJadwal */
+/** @var int $totalPesanan */
+/** @var int $totalTiket */
+/** @var int $totalLunas */
+/** @var int $totalPending */
+/** @var int $totalPendapatan */
+/** @var array $jadwal */
+?>
 <?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>

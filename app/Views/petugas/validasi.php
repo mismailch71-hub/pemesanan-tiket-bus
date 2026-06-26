@@ -1,3 +1,7 @@
+<?php
+/** @var array $daftar_kursi */
+/** @var array $tiket */
+?>
 <?php $this->extend('layout/sidebar'); ?>
 <?php $this->section('content'); ?>
 
@@ -7,7 +11,7 @@
     <div class="card shadow-sm border-0 p-3 mb-4">
         <form action="<?= base_url('petugas/validasi_tiket') ?>" method="post" class="d-flex">
             <?= csrf_field() ?>
-            <input type="text" name="kode_booking" class="from-control me-2" placeholder="Masukkan Kode Booking (Contoh: SB-XXXX)" required>
+            <input type="text" name="kode_booking" class="form-control me-2" placeholder="Masukkan Kode Booking (Contoh: SB-XXXX)" required>
             <button type="submit" class="btn btn-primary">Cari Tiket</button>
         </form>
 

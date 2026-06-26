@@ -1,3 +1,11 @@
+<?php
+/** @var int $totalArmada */
+/** @var int $totalJadwal */
+/** @var int $totalPesanan */
+/** @var int $totalTiket */
+/** @var array $jadwal */
+?>
+
 <?= $this->extend('layout/sidebar'); ?>
 
 <?= $this->section('content'); ?>
@@ -21,14 +29,14 @@
     <div class="col-md-3">
         <div class="card border-0 shadow-sm bg-primary text-white">
             <div class="card-body text-center">
-                <h6>Total Bus</h6>
-                <h2><?= $totalBus ?></h2>
+                <h6>Total Armada</h6>
+                <h2><?= $totalArmada ?></h2>
             </div>
         </div>
     </div>
 
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm bg-success text-white">
+        <div class="card border-0 shadow-sm bg-dark text-white">
             <div class="card-body text-center">
                 <h6>Total Jadwal</h6>
                 <h2><?= $totalJadwal ?></h2>

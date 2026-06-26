@@ -11,7 +11,7 @@
         <?php else: ?>
             <li class="nav-item"><a class="nav-link active" href="<?= base_url('jadwal'); ?>">Cari Jadwal Bus</a></li>
             <li class="nav-item"><a class="nav-link" href="<?= base_url('riwayat'); ?>">Riwayat Pesanan</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Poin Saya 🌟</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Poin Saya</a></li>
         <?php endif; ?>
 
         <li class="nav-item ms-2">
