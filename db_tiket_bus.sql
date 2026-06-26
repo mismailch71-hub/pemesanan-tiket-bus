@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 25, 2026 at 04:23 AM
+-- Generation Time: Jun 26, 2026 at 10:11 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -186,7 +186,8 @@ INSERT INTO `transaksi` (`id`, `id_user`, `id_jadwal`, `nomor_kursi`, `status_pe
 (25, 16, 6, 'A23', 'Lunas', 'SB-971853ED', NULL, 1000000, '2026-06-23 21:55:09'),
 (26, 17, 3, 'B12', 'Pending', 'SB-1ACA0994', NULL, 300000, '2026-06-23 22:45:28'),
 (27, 7, 6, 'B11', 'Lunas', 'SB-41DE8B9F', NULL, 1000000, '2026-06-24 05:52:20'),
-(28, 7, 1, 'A12', 'Lunas', 'SB-4162BD0D', NULL, 150000, '2026-06-24 20:05:38');
+(28, 7, 1, 'A12', 'Lunas', 'SB-4162BD0D', NULL, 150000, '2026-06-24 20:05:38'),
+(29, 7, 1, 'B1', 'Pending', 'SB-C14F79C5', NULL, 150000, '2026-06-26 02:04:19');
 
 -- --------------------------------------------------------
 
@@ -338,7 +339,7 @@ ALTER TABLE `pengumuman`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `ulasan`
