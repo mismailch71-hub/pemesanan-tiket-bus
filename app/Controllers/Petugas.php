@@ -13,7 +13,7 @@ class Petugas extends BaseController
 
         $db = \Config\Database::connect();
 
-        $data['totalArmada'] = $db->table('bus')->countAllResults();
+        $data['totalBus'] = $db->table('bus')->countAllResults();
         $data['totalJadwal'] = $db->table('jadwal')->countAllResults();
 
         $data['totalPesanan'] = $db->table('transaksi')
